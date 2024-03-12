@@ -27,7 +27,7 @@ def get_moon_dataset(size):
 
 
 def get_circular_boundary_dataset(size):
-    dataset = sklearn.datasets.make_circles(noise=0.19, factor=0.3)
+    dataset = sklearn.datasets.make_circles(n_samples=size, noise=0.19, factor=0.3)
     X = np.array(dataset[0],requires_grad=False)
     y = np.array(np.where(dataset[1], 1, -1), requires_grad=False)
     train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.10, random_state=42)
