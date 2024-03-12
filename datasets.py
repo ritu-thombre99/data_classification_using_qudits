@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 import numpy
 import sklearn
 from sklearn import datasets
-import matplotlib.pyplot as plt
 from ucimlrepo import fetch_ucirepo 
 
 def get_xor_data(size):
@@ -55,6 +54,3 @@ def get_wine_dataset():
     train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.10, random_state=42)
     return train_X, test_X, train_y, test_y
   
-
-def plot_2d_data(data, labels):
-    plt.scatter(data[:, 0], data[:, 1], c=labels)
