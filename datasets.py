@@ -27,7 +27,7 @@ def get_moon_dataset(size):
 
 
 def get_circular_boundary_dataset(size):
-    dataset = sklearn.datasets.make_circles(noise=0.15, factor=0.5)
+    dataset = sklearn.datasets.make_circles(noise=0.19, factor=0.3)
     X = np.array(dataset[0],requires_grad=False)
     y = np.array(np.where(dataset[1], 1, -1), requires_grad=False)
     train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.10, random_state=42)
@@ -38,7 +38,7 @@ def iris_dataset():
     iris = datasets.load_iris()
     X = np.array(iris['data'],requires_grad=False)
     y = np.array(iris['target'],requires_grad=False)
-    y = np.where(y == 0, -2, (np.where(y == 1, 0, 2))) #  reformat labels to -2,0,-2
+    y = np.where(y == 0, -2, (np.where(y == 1, 0, 2))) #  reformat labels to -2,0,2
     train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.10, random_state=42) 
     return train_X, test_X, train_y, test_y
 
@@ -47,7 +47,7 @@ def get_wine_dataset():
     wine = fetch_ucirepo(id=109)  
     X = np.array(wine.data.features ,requires_grad=False)
     y = np.array(wine.data.targets,requires_grad=False)
-    y = np.where(y == 0, -2, (np.where(y == 1, 0, 2))) #  reformat labels to -2,0,-2
+    y = np.where(y == 0, -2, (np.where(y == 1, 0, 2))) #  reformat labels to -2,0,2
     # metadata 
     # print(wine.metadata) 
     # variable information 
