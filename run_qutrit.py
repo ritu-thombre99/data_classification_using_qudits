@@ -55,7 +55,9 @@ def loss(data, labels, model, params):
         data_point = data[idx]
         true_label = labels[idx]
         model_output = model(data_point, params)
+        print(model_output,end=' ')
         if config["binary_classifier"]  == True:
+            print("Bin class")
             if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
                 loss_sum.append((model_output - true_label) ** 2)
         else:
@@ -162,6 +164,7 @@ def main():
         elif config['dataset'] == 'xor':
             if config['encoding_and_rotation_scheme'] in ['D1','D2','D3']:
                 print("Cannot use D1,D2,D3 encoding scheme with XOR data, only A,B,C works")
+                return 
             try:
                 dataset_size = int(input("Enter the dataset size: "))
             except Exception as e:
@@ -183,6 +186,11 @@ def main():
         return
     s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
     params = np.random.normal(size=(s_params_size+w_params_size))#*100
+    init_loss = loss(train_X, train_y, vqc_model, params)
+    # while init_loss>500:
+    #     print("Loss too big:",init_loss)
+    #     print("Generating new params")
+    #     params = np.random.normal(size=(s_params_size+w_params_size))#*100
 
     print("Initial parameters:",params)
     loss_over_time = []

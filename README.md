@@ -1,3 +1,18 @@
+# Setup
+
+Create environment:
+```conda create --name cpen400q -c anaconda python=3.11.5```
+
+Activate:
+```conda activate cpen400q```
+
+Requirements
+```cd /pat/to/repo```
+```pip install -r requirements.txt```
+
+Deactivate Env:
+```conda deactivate cpen400q```
+
 # Qubit Models:
 
 Qubit Encoding and Rotate: A-G

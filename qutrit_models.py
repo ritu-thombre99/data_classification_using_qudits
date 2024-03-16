@@ -28,7 +28,7 @@ def scheme_b(x_i,s_params,w_params):
 
     U = w_params[0]*lambdas[1]
     for i in range(1,4):
-        U = U + w_params[i]*lambdas[i+1]
+        U = U + (w_params[i]*lambdas[i+1])
     rotate_U = np.exp(1j*U)
     qml.QutritUnitary(rotate_U,wires=0)
              
@@ -42,7 +42,7 @@ def scheme_c(x_i,s_params,w_params):
 
     U = w_params[0]*lambdas[1]
     for i in range(1,4):
-        U = U + w_params[i]*lambdas[i+1]
+        U = U + (w_params[i]*lambdas[i+1])
     rotate_U = np.exp(1j*U)
     qml.QutritUnitary(rotate_U,wires=0)
 
