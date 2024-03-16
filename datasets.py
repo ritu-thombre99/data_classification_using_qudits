@@ -16,6 +16,23 @@ def get_xor_data(size):
     train_X, test_X, train_y, test_y = train_test_split(X, Y, test_size=0.10, random_state=42)
     return train_X, test_X, train_y, test_y
 
+def get_three_class_xor_data(size):
+    rng = numpy.random.RandomState(0)
+    X = np.array(rng.randn(size, 2),requires_grad=False)
+    Y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0)
+    Y = np.array(np.where(Y, 1, -1), requires_grad=False)
+    new_y = []
+    for x,y in zip(X,Y):
+        if x[0]>0 and x[1]>0:
+            new_y.append(2)
+        elif x[0]<0 and x[1]<0:
+            new_y.append(-2)
+        else:
+            new_y.append(0)
+    Y = np.array(new_y,requires_grad=False)
+    train_X, test_X, train_y, test_y = train_test_split(X, Y, test_size=0.10, random_state=42)
+    return train_X, test_X, train_y, test_y
+    
 
 def get_moon_dataset(size):
     moon = sklearn.datasets.make_moons(n_samples=size,noise=0.07)

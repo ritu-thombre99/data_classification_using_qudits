@@ -99,7 +99,7 @@ def main():
     parser.add_argument("--encoding_and_rotation",type=str,
                         choices=['A','B','C','D','E','F','G'],help="choose the encoding and rotation scheme, default B")
     parser.add_argument("--dataset",type=str,
-                        choices=['xor','moon'],help="choose the dataset, default circular boundary")
+                        choices=['xor','moon','circular'],help="choose the dataset, default circular boundary")
     parser.add_argument("--dataset_size",type=int,help="Enter the dataset size")
     args = parser.parse_args()
     
