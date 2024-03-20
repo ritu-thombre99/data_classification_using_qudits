@@ -7,6 +7,7 @@ matplotlib.use('Agg')
 import os 
 datasets = ['xor','moon','circular']
 rotation_schemes = ['A','B','C','D','E','F']
+num_itrs = [100,150,200,250,300,350,400,450,500] # to do
 dataset_size = 200
 
 def delete_figures():
