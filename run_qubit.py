@@ -1,8 +1,13 @@
 import argparse
 
+import warnings
+warnings.filterwarnings("ignore")
+
 import pennylane as qml
 from pennylane import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
 from qubit_models import *
 from helpers import *
 from datasets import *
@@ -23,6 +28,7 @@ config['dataset'] = 'circular'
 config['encoding_and_rotation_scheme'] = 'B'
 config['s_params_size'] = 1
 config['w_params_size'] = 3
+
 
 dev = qml.device("default.qubit", wires=1)
 @qml.qnode(dev)
@@ -101,6 +107,7 @@ def main():
     parser.add_argument("--dataset",type=str,
                         choices=['xor','moon','circular'],help="choose the dataset, default circular boundary")
     parser.add_argument("--dataset_size",type=int,help="Enter the dataset size")
+    parser.add_argument("--num_itr",type=int,help="Enter number of iterations for training")
     args = parser.parse_args()
     
     if args.encoding_and_rotation:
@@ -119,12 +126,15 @@ def main():
         config['s_params_size'], config['w_params_size'] = scheme_config[config['encoding_and_rotation_scheme']]
         
     train_X, test_X, train_y, test_y = None, None, None, None
+    dataset_size = 200
+    if type(args.dataset_size) == int:
+        dataset_size = args.dataset_size
     if config['dataset'] == 'xor':
-        train_X, test_X, train_y, test_y = get_xor_data(args.dataset_size)
+        train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
     elif config['dataset'] == 'circular':
-        train_X, test_X, train_y, test_y = get_circular_boundary_dataset(args.dataset_size)
+        train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
     elif config['dataset'] == 'moon':
-        train_X, test_X, train_y, test_y = get_moon_dataset(args.dataset_size)
+        train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
         
     s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
     params = np.random.normal(size=(s_params_size+w_params_size))#*100
@@ -134,6 +144,11 @@ def main():
     # opt = qml.AdamOptimizer(stepsize=0.00087)
     opt = qml.GradientDescentOptimizer(stepsize=0.009)
     num_its = 220
+    if type(args.num_itr) != int:
+        print("Number of itreations should be integer, using default num_itr=220")
+    else:
+        num_its = args.num_itr
+    
     loss_over_time = []
     for itr in range(num_its):
         (_, _, _, params), _loss = opt.step_and_cost(loss, train_X, train_y, vqc_model, params)
@@ -149,8 +164,10 @@ def main():
     plt.plot(loss_over_time)
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
-    plt.title("Loss for "+config['dataset']+" using single qubit with scheme "+config['encoding_and_rotation_scheme'])
+    title = "Loss for "+config['dataset']+" using single qubit with scheme "+config['encoding_and_rotation_scheme']
+    plt.title(title)
     plt.show()
+    plt.savefig("./Figs/qubit/"+title+".png")
     
     op_state = []
     for i in range(len(train_X)):
@@ -159,6 +176,8 @@ def main():
     op_state = np.array(op_state)
     plot_classified_data_on_bloch(op_state,train_y)
     plt.show()
+    title = "Bloch Projection for "+config['dataset']+" using single qubit with scheme "+config['encoding_and_rotation_scheme']
+    plt.savefig("./Figs/qubit/"+title+".png")
 if __name__ == "__main__":
     main()
     
