@@ -29,6 +29,8 @@ config['encoding_and_rotation_scheme'] = 'B'
 config['s_params_size'] = 1
 config['w_params_size'] = 3
 
+f = open("./logs/qubit_run.txt","a")
+
 
 dev = qml.device("default.qubit", wires=1)
 @qml.qnode(dev)
@@ -127,6 +129,8 @@ def main():
         
     train_X, test_X, train_y, test_y = None, None, None, None
     dataset_size = 200
+    if type(args.dataset_size) == str and args.dataset_size.isdigit() == True:
+        args.dataset_size = int(args.dataset_size)
     if type(args.dataset_size) == int:
         dataset_size = args.dataset_size
     if config['dataset'] == 'xor':
@@ -139,45 +143,68 @@ def main():
     s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
     params = np.random.normal(size=(s_params_size+w_params_size))#*100
 
+    f.writelines("Dataset: "+config['dataset']+"\n")
+    f.writelines("Dataset size: "+str(dataset_size)+"\n")
+    f.writelines("Encoding scheme: "+str(config['encoding_and_rotation_scheme'])+"\n")
+
+
     print("Initial parameters:",params)
-    
+    f.writelines("Initial parameters: "+str(params)+"\n")
     # opt = qml.AdamOptimizer(stepsize=0.00087)
     opt = qml.GradientDescentOptimizer(stepsize=0.009)
     num_its = 220
-    if type(args.num_itr) != int:
-        print("Number of itreations should be integer, using default num_itr=220")
-    else:
+    if type(args.num_itr) == str and args.num_itr.isdigit() == True:
+        args.num_itr = int(args.num_itr)
+    if type(args.num_itr) == int:
         num_its = args.num_itr
-    
+    else:
+        print("Number of itreations should be integer, using default num_itr=220")
+
+    f.writelines("Number of iterations: "+str(num_its)+"\n")
+
     loss_over_time = []
     for itr in range(num_its):
         (_, _, _, params), _loss = opt.step_and_cost(loss, train_X, train_y, vqc_model, params)
         loss_over_time.append(_loss)
-        print("Iteration:",itr+1,"/",num_its,"Loss:",_loss)
+        if (itr+1)%20 == 0:
+            print("Iteration:",itr+1,"/",num_its,"Loss:",_loss)
     
+    f.writelines(str(loss_over_time)+"\n")
     training_accuracy = compute_accuracy(train_X, train_y, vqc_model, params)
     testing_accuracy = compute_accuracy(test_X, test_y, vqc_model, params)
 
     print(f"Training accuracy = {training_accuracy}")
+    f.writelines("Training accuracy:"+str(training_accuracy)+"\n")
+
     print(f"Testing accuracy = {testing_accuracy}")
+    f.writelines("Testing accuracy:"+str(testing_accuracy)+"\n")
     
     plt.plot(loss_over_time)
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
-    title = "Loss for "+config['dataset']+" using single qubit with scheme "+config['encoding_and_rotation_scheme']
+    title = "Loss for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
     plt.title(title)
     plt.show()
     plt.savefig("./Figs/qubit/"+title+".png")
     
-    op_state = []
+    yz_op_state = []
+    xz_op_state = []
     for i in range(len(train_X)):
         x,y,z = (get_state(train_X[i],params))
-        op_state.append([y,z])
-    op_state = np.array(op_state)
-    plot_classified_data_on_bloch(op_state,train_y)
+        yz_op_state.append([y,z])
+        xz_op_state.append([x,z])
+    yz_op_state = np.array(yz_op_state)
+    xz_op_state = np.array(xz_op_state)
+    plot_classified_data_on_bloch(yz_op_state,train_y)
     plt.show()
-    title = "Bloch Projection for "+config['dataset']+" using single qubit with scheme "+config['encoding_and_rotation_scheme']
+    title = "Bloch YZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
+    plt.savefig("./Figs/qubit/"+title+".png")
+
+    plot_classified_data_on_bloch(xz_op_state,train_y)
+    plt.show()
+    title = "Bloch XZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
     plt.savefig("./Figs/qubit/"+title+".png")
 if __name__ == "__main__":
     main()
-    
+    f.writelines("--------------------------------------------\n")
+    f.close()
