@@ -2,3 +2,6 @@ matplotlib
 pennylane
 scikit-learn
 ucimlrepo
+pandas
+jax
+jaxopt

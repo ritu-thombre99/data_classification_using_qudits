@@ -4,7 +4,12 @@ import warnings
 warnings.filterwarnings("ignore")
 
 import pennylane as qml
-from pennylane import numpy as np
+# from pennylane import numpy as np
+
+import jax, jaxopt
+jax.config.update("jax_enable_x64", True)
+import jax.numpy as jnp
+
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
@@ -32,8 +37,10 @@ config['w_params_size'] = 3
 f = open("./logs/qubit_run.txt","a")
 
 
-dev = qml.device("default.qubit", wires=1)
-@qml.qnode(dev)
+dev = qml.device("default.qubit.jax", wires=1)
+
+@jax.jit
+@qml.qnode(dev, interface='jax')
 def vqc_model(x_i, params):
     s_params,w_params = params[:config['s_params_size']], params[config['s_params_size']:]
     scheme = config['encoding_and_rotation_scheme']
@@ -54,7 +61,8 @@ def vqc_model(x_i, params):
         print("Yet to implement the scheme G with 3d data")
     return qml.expval(qml.PauliZ(0))
 
-@qml.qnode(dev)
+@jax.jit
+@qml.qnode(dev, interface='jax')
 def get_state(x_i,params):
     s_params,w_params = params[:config['s_params_size']], params[config['s_params_size']:]
     scheme = config['encoding_and_rotation_scheme']
@@ -75,17 +83,33 @@ def get_state(x_i,params):
         print("Yet to implement the scheme G with 3d data")
     return [qml.expval(qml.PauliX(0)), qml.expval(qml.PauliY(0)), qml.expval(qml.PauliZ(0))]
 
-
-def loss(data, labels, model, params):    
+@jax.jit
+def loss(data, labels, params):    
     loss_sum = []
     for idx in range(len(data)):
         data_point = data[idx]
         true_label = labels[idx]
-        model_output = model(data_point, params)
-        if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
-            loss_sum.append((model_output - true_label) ** 2)
+        model_output = vqc_model(data_point, params)
 
-    return sum(loss_sum)/len(data)
+        # jax.lax.cond((model_output<0 and true_label>0) || (),  print_training, print_fn, lambda: None)
+        # if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
+        loss_sum.append((model_output - true_label) ** 2)
+
+    return np.sum(loss_sum)/len(data)
+
+# djax loss
+def loss_and_grad(data, labels, params,i,print_training=True):
+    loss_val, grad_val = jax.value_and_grad(loss)(data, labels, params)
+    print(loss_val)
+    print(grad_val)
+
+    def print_fn():
+        jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
+
+    # if print_training=True, print the loss every 5 steps
+    jax.lax.cond((jnp.mod(i, 5) == 0) & print_training, print_fn, lambda: None)
+
+    return loss_val, grad_val
 
 
 def make_prediction(model, data_point, params):
@@ -97,7 +121,7 @@ def make_prediction(model, data_point, params):
 
 def compute_accuracy(data, labels, model, params):
     n_samples = len(data)
-    return np.sum(
+    return sum(
         [make_prediction(model, data[x], params) == labels[x] for x in range(n_samples)
     ]) / n_samples
 
@@ -141,7 +165,10 @@ def main():
         train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
         
     s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
-    params = np.random.normal(size=(s_params_size+w_params_size))#*100
+    # arams = jnp.random.normal(size=(s_params_size+w_params_size))#*100
+    params = jnp.asarray(np.random.normal(size=(s_params_size+w_params_size)))#*100
+    # key = jax.random.PRNGKey(758493)
+    # params = jax.random.normal(key,shape=(s_params_size+w_params_size))#*100
 
     f.writelines("Dataset: "+config['dataset']+"\n")
     f.writelines("Dataset size: "+str(dataset_size)+"\n")
@@ -151,7 +178,7 @@ def main():
     print("Initial parameters:",params)
     f.writelines("Initial parameters: "+str(params)+"\n")
     # opt = qml.AdamOptimizer(stepsize=0.00087)
-    opt = qml.GradientDescentOptimizer(stepsize=0.009)
+    # opt = qml.GradientDescentOptimizer(stepsize=0.009)
     num_its = 220
     if type(args.num_itr) == str and args.num_itr.isdigit() == True:
         args.num_itr = int(args.num_itr)
@@ -163,13 +190,20 @@ def main():
     f.writelines("Number of iterations: "+str(num_its)+"\n")
 
     loss_over_time = []
-    for itr in range(num_its):
-        (_, _, _, params), _loss = opt.step_and_cost(loss, train_X, train_y, vqc_model, params)
-        loss_over_time.append(_loss)
-        if (itr+1)%20 == 0:
-            print("Iteration:",itr+1,"/",num_its,"Loss:",_loss)
+    # for itr in range(num_its):
+    #     (_, _, _, params), _loss = opt.step_and_cost(loss, train_X, train_y, vqc_model, params)
+    #     loss_over_time.append(_loss)
+    #     if (itr+1)%20 == 0:
+    #         print("Iteration:",itr+1,"/",num_its,"Loss:",_loss)
+    opt = jaxopt.GradientDescent(loss_and_grad, stepsize=0.009, value_and_grad=True)
+    opt_state = opt.init_state(params)
+
+    for i in range(100):
+        params, opt_state = opt.update(train_X, train_y, params,i)
     
     f.writelines(str(loss_over_time)+"\n")
+    f.writelines("Final params:"+str(params)+"\n")
+    
     training_accuracy = compute_accuracy(train_X, train_y, vqc_model, params)
     testing_accuracy = compute_accuracy(test_X, test_y, vqc_model, params)
 
@@ -180,12 +214,15 @@ def main():
     f.writelines("Testing accuracy:"+str(testing_accuracy)+"\n")
     
     plt.plot(loss_over_time)
+    plt.plot([], [], ' ', label="Training Accuracy:"+str(training_accuracy))
+    plt.plot([], [], ' ', label="Testing Accuracy:"+str(testing_accuracy))
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
     title = "Loss for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
     plt.title(title)
+    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
     plt.show()
-    plt.savefig("./Figs/qubit/"+title+".png")
+    plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
     
     yz_op_state = []
     xz_op_state = []
@@ -193,8 +230,8 @@ def main():
         x,y,z = (get_state(train_X[i],params))
         yz_op_state.append([y,z])
         xz_op_state.append([x,z])
-    yz_op_state = np.array(yz_op_state)
-    xz_op_state = np.array(xz_op_state)
+    yz_op_state = jnp.array(yz_op_state)
+    xz_op_state = jnp.array(xz_op_state)
     plot_classified_data_on_bloch(yz_op_state,train_y)
     plt.show()
     title = "Bloch YZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
