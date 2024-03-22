@@ -296,3 +296,343 @@ Final params:[-1.15594714  0.0112742  -0.00203242 -1.20958552]
 Training accuracy:0.8944444444444445
 Testing accuracy:0.8
 --------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.15502318 -0.33506752 -1.83338762 -0.60433786]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.61529095 -1.70609992  0.96169428  0.24781775]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.2013276   0.68089053  0.65988783  0.32223201]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.48574798 -2.62493527 -0.3116321   1.12300144]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.20730141 -0.44503894 -1.44725099 -0.38365437]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.3654554   0.92413105  0.62758786 -0.70291168]
+Number of iterations: 220
+[]
+Final params:[ 0.3654554   0.92413105  0.62758786 -0.70291168]
+Training accuracy:0.43333333333333335
+Testing accuracy:0.5
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.56809747 -0.22884902 -1.77826201 -0.74334933]
+Number of iterations: 220
+[]
+Final params:[ 1.56809747 -0.22884902 -1.77826201 -0.74334933]
+Training accuracy:0.31666666666666665
+Testing accuracy:0.3
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [1.64873742 1.53682043 1.62977333 0.0875825 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.24349511 -0.83776103 -1.16993416 -0.15626596]
+Number of iterations: 220
+[]
+Final params:[ 1.24349511 -0.83776103 -1.16993416 -0.15626596]
+Training accuracy:0.5722222222222222
+Testing accuracy:0.65
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.9390484  -0.36850696  0.31788885 -0.04131527]
+Number of iterations: 220
+[]
+Final params:[-0.9390484  -0.36850696  0.31788885 -0.04131527]
+Training accuracy:0.6777777777777778
+Testing accuracy:0.8
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.18456584  0.4738495   1.8966033  -0.02999516]
+Number of iterations: 220
+[]
+Final params:[ 0.18456584  0.4738495   1.8966033  -0.02999516]
+Training accuracy:0.4888888888888889
+Testing accuracy:0.55
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.05931589  0.58153308  0.86008848 -0.45392492]
+Number of iterations: 220
+[]
+Final params:[ 0.05931589  0.58153308  0.86008848 -0.45392492]
+Training accuracy:0.34444444444444444
+Testing accuracy:0.55
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.92989227 -0.21567229 -0.62129798 -2.33709768]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.75797348  0.04582162 -0.02319078  0.78375269]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [2.25922019 0.75187696 0.36306673 0.42708997]
+Number of iterations: 220
+[]
+Final params:[2.25922019 0.75187696 0.36306673 0.42708997]
+Training accuracy:0.5333333333333333
+Testing accuracy:0.6
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.73127068  2.66457637  1.33692147  1.1696663 ]
+Number of iterations: 220
+[]
+Final params:[-1.73127068  2.66457637  1.33692147  1.1696663 ]
+Training accuracy:0.4111111111111111
+Testing accuracy:0.4
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.74738187 -0.43495079 -0.04477153 -1.49453452]
+Number of iterations: 220
+[]
+Final params:[ 1.74738187 -0.43495079 -0.04477153 -1.49453452]
+Training accuracy:0.5611111111111111
+Testing accuracy:0.6
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.05822323 -0.6174038   0.56910744 -1.04513655]
+Number of iterations: 220
+[]
+Final params:[ 1.05822323 -0.6174038   0.56910744 -1.04513655]
+Training accuracy:0.5888888888888889
+Testing accuracy:0.35
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.66339105 -0.87383283 -0.14557877 -0.41128   ]
+Number of iterations: 220
+[]
+Final params:[-1.66339105 -0.87383283 -0.14557877 -0.41128   ]
+Training accuracy:0.45
+Testing accuracy:0.6
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [0.24513636 0.31299578 0.09619137 1.58871842]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.32141838 -0.9328143  -0.00201952 -0.81345407]
+Number of iterations: 220
+[]
+Final params:[ 1.32141838 -0.9328143  -0.00201952 -0.81345407]
+Training accuracy:0.4222222222222222
+Testing accuracy:0.25
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.9367384  -0.57571806 -0.77139304 -1.40850636]
+Number of iterations: 220
+[]
+Final params:[-0.9367384  -0.57571806 -0.77139304 -1.40850636]
+Training accuracy:0.5111111111111111
+Testing accuracy:0.45
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.70557554  1.0017416   1.10091564 -0.67012944]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.17068065  0.88675685 -0.24335776  0.26221865]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.68765473 -0.40643204 -0.08990571 -0.65996075]
+Number of iterations: 220
+[]
+Final params:[-0.68765473 -0.40643204 -0.08990571 -0.65996075]
+Training accuracy:0.65
+Testing accuracy:0.7
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.05498208  1.64067567 -0.66444804  1.02590127]
+Number of iterations: 220
+[]
+Final params:[ 0.05498208  1.64067567 -0.66444804  1.02590127]
+Training accuracy:0.5111111111111111
+Testing accuracy:0.4
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.56097844 -0.53612085  0.11664897  0.21028144]
+Number of iterations: 220
+[]
+Final params:[-0.56097844 -0.53612085  0.11664897  0.21028144]
+Training accuracy:0.6666666666666666
+Testing accuracy:0.6
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.4464871   2.1169141  -1.01855377 -1.60656671]
+Number of iterations: 220
+[]
+Final params:[-0.4464871   2.1169141  -1.01855377 -1.60656671]
+Training accuracy:0.6111111111111112
+Testing accuracy:0.65
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.37823689  1.37212653  0.05606952 -1.64619353]
+Number of iterations: 220
+[]
+Final params:[-0.37823689  1.37212653  0.05606952 -1.64619353]
+Training accuracy:0.48333333333333334
+Testing accuracy:0.65
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.03689794 -1.1319393   1.29935073  0.05486496]
+Number of iterations: 220
+[]
+Final params:[-1.03689794 -1.1319393   1.29935073  0.05486496]
+Training accuracy:0.6833333333333333
+Testing accuracy:0.65
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.15370852  0.3034444  -0.40175677 -0.71070042]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.49220838 -0.73456882 -0.58260226  0.19225487]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.590492    0.08215384  1.09326982 -1.1927626 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.9924759   1.23308706  0.78699217 -0.23675434]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.71270111 -0.10081188  0.91972601 -2.0922214 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.40529321 -0.1198002   2.17095381 -2.25930606]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.07985795  0.72484912 -1.43104228  0.06410375]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.82636585  2.50084455 -0.73521584 -0.23555091]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.07524038  0.56081991  0.28171432 -0.92000034]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.05013897  0.97904783 -1.11646552  2.5584276 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.04375821  0.5445031  -0.55883797 -0.0638494 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.52879723  0.61076279  0.9887166   0.8176953 ]
+Number of iterations: 220
+[]
+Final params:[-1.52879723  0.61076279  0.9887166   0.8176953 ]
+Training accuracy:0.4777777777777778
+Testing accuracy:0.3
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.41565221 -0.54948796 -1.08850542 -1.04276072]
+Number of iterations: 220
+[]
+Final params:[-0.14654657 -0.38551953 -1.24401235 -1.04276072]
+Training accuracy:0.4888888888888889
+Testing accuracy:0.6
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.37078595 -1.02990893 -0.73787942 -1.51932904]
+Number of iterations: 220
+[]
+Final params:[ 1.26136146 -1.50687266 -1.58841252 -1.51932904]
+Training accuracy:0.9055555555555556
+Testing accuracy:0.6
+--------------------------------------------
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [0.46211148 0.92966798 0.17432514 0.90251316]
+Number of iterations: 220
+[]
+Final params:[-0.00150641  0.78542668  0.89651547  0.90251316]
+Training accuracy:0.5
+Testing accuracy:0.45
+--------------------------------------------

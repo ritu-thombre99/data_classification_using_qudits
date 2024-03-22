@@ -16,6 +16,7 @@ matplotlib.use('Agg')
 from qubit_models import *
 from helpers import *
 from datasets import *
+from functools import partial
 
 # store the s_params and w_params required for any scheme
 scheme_config = {}
@@ -85,17 +86,36 @@ def get_state(x_i,params):
 
 @jax.jit
 def loss(params, data, labels):    
-    loss_sum = []
+    loss_sum = jnp.asarray([0.])
     for idx in range(len(data)):
         data_point = data[idx]
         true_label = labels[idx]
         model_output = vqc_model(data_point, params)
+        @jax.jit
+        def append_loss_fn():
+            temp_loss = jax.numpy.square(jax.numpy.subtract(model_output,true_label))
+            return temp_loss
+        def false_fn():
+            return 0.
 
-        # jax.lax.cond((model_output<0 and true_label>0) || (),  print_training, print_fn, lambda: None)
         # if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
-        loss_sum.append((model_output - true_label) ** 2)
-        # jax.lax.cond(true_label>0, lambda:jax.lax.cond(model_output<0,loss_sum.at[idx].set((model_output - true_label) ** 2), lambda:None), lambda: None)
-    loss_sum = jnp.asarray(loss_sum)
+        # (model_output<0 and true_label>0)
+        temp_loss = jax.lax.cond(
+                        (jax.numpy.greater(0,model_output) & jax.numpy.greater(true_label,0)),
+                        append_loss_fn,
+                        false_fn,
+                    )
+        jax.debug.print("Temp loss: {temp_loss}", temp_loss=temp_loss)
+        loss_sum = loss_sum.at[0].add(temp_loss)
+
+        # (model_output>0 and true_label<0)
+        temp_loss = jax.lax.cond(
+                        (jax.numpy.greater(model_output,0) & jax.numpy.greater(0,true_label)),
+                        append_loss_fn,
+                        false_fn,
+                    )
+        loss_sum = loss_sum.at[0].add(temp_loss)
+
     return jnp.sum(loss_sum)/len(data)
 
 # djax loss
