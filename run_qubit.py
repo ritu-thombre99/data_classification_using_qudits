@@ -197,7 +197,7 @@ def main():
     opt = jaxopt.GradientDescent(loss_and_grad, stepsize=0.009, value_and_grad=True)
     opt_state = opt.init_state(params)
 
-    for i in range(100):
+    for i in range(num_its):
         #params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
         params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
     
