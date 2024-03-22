@@ -1,10 +1,10 @@
-import warnings
+import warnings, os
 warnings.filterwarnings("ignore")
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
 
-import os 
+from run_qubit import *
 datasets = ['xor','moon','circular']
 rotation_schemes = ['A','B','C','D','E','F']
 num_itrs = [100,150,200,250,300,350,400,450,500] # to do
@@ -28,7 +28,6 @@ delete_figures('./logs/')
 
 for dataset in datasets:
     print("Benchmarking for dataset:",dataset)
-    
     for sch in rotation_schemes:
         for itr in num_itrs:
             command = "python run_qubit.py --dataset "+dataset
@@ -36,4 +35,4 @@ for dataset in datasets:
             command = command + " --dataset_size "+str(dataset_size)
             command = command + " --num_itr "+str(itr)
             print(command)
-            os.system(command)
+            run(dataset,sch,dataset_size,itr)

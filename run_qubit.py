@@ -1,5 +1,3 @@
-import argparse
-
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -28,7 +26,6 @@ scheme_config['E'] = [2,2]
 scheme_config['F'] = [3,3]
 scheme_config['G'] = [1,2]
 
-# default scheme: B
 config = {}
 config['dataset'] = 'circular'
 config['encoding_and_rotation_scheme'] = 'B'
@@ -143,81 +140,39 @@ def compute_accuracy(data, labels, model, params):
         [make_prediction(model, data[x], params) == labels[x] for x in range(n_samples)
     ]) / n_samples
 
-def main():
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--encoding_and_rotation",type=str,
-                        choices=['A','B','C','D','E','F','G'],help="choose the encoding and rotation scheme, default B")
-    parser.add_argument("--dataset",type=str,
-                        choices=['xor','moon','circular'],help="choose the dataset, default circular boundary")
-    parser.add_argument("--dataset_size",type=int,help="Enter the dataset size")
-    parser.add_argument("--num_itr",type=int,help="Enter number of iterations for training")
-    args = parser.parse_args()
-    
-    if args.encoding_and_rotation:
-        config['encoding_and_rotation_scheme'] = args.encoding_and_rotation
-    if args.dataset:
-        config['dataset'] = args.dataset
-    
-    if config['encoding_and_rotation_scheme'] not in ['A','B','C','D','E','F','G']:
-        print("Invalid Encoding and Rotation scheme. Allowed Schemes: A,B,C,D,E,F,G")
-        return
-    if config['dataset'] not in ['xor','moon','circular']:
-        print("Invalid dataset. Choose from [Moon,XOR,Circular boundary]")
-        return
-    
-    if config['encoding_and_rotation_scheme'] != 'B':
-        config['s_params_size'], config['w_params_size'] = scheme_config[config['encoding_and_rotation_scheme']]
-        
+def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,num_its=220):
+
+    config = {}
+    config['dataset'] = dataset
+    config['encoding_and_rotation_scheme'] = encoding_and_rotation_scheme
+    config['s_params_size'], config['w_params_size'] = scheme_config[encoding_and_rotation_scheme]
+
     train_X, test_X, train_y, test_y = None, None, None, None
-    dataset_size = 200
-    if type(args.dataset_size) == str and args.dataset_size.isdigit() == True:
-        args.dataset_size = int(args.dataset_size)
-    if type(args.dataset_size) == int:
-        dataset_size = args.dataset_size
-    if config['dataset'] == 'xor':
+    if dataset == 'xor':
         train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
-    elif config['dataset'] == 'circular':
+    elif dataset == 'circular':
         train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
-    elif config['dataset'] == 'moon':
+    elif dataset == 'moon':
         train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
         
-    s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
-    # arams = jnp.random.normal(size=(s_params_size+w_params_size))#*100
-    params = jnp.asarray(np.random.normal(size=(s_params_size+w_params_size)))#*100
-    # key = jax.random.PRNGKey(758493)
-    # params = jax.random.normal(key,shape=(s_params_size+w_params_size))#*100
+    s_params_size, w_params_size = scheme_config[encoding_and_rotation_scheme]
+    params = jnp.asarray(np.random.normal(size=(s_params_size+w_params_size)))
 
-    f.writelines("Dataset: "+config['dataset']+"\n")
+    f.writelines("Dataset: "+dataset+"\n")
     f.writelines("Dataset size: "+str(dataset_size)+"\n")
-    f.writelines("Encoding scheme: "+str(config['encoding_and_rotation_scheme'])+"\n")
+    f.writelines("Encoding scheme: "+str(encoding_and_rotation_scheme)+"\n")
 
 
     print("Initial parameters:",params)
     f.writelines("Initial parameters: "+str(params)+"\n")
-    # opt = qml.AdamOptimizer(stepsize=0.00087)
-    # opt = qml.GradientDescentOptimizer(stepsize=0.009)
-    num_its = 220
-    if type(args.num_itr) == str and args.num_itr.isdigit() == True:
-        args.num_itr = int(args.num_itr)
-    if type(args.num_itr) == int:
-        num_its = args.num_itr
-    else:
-        print("Number of itreations should be integer, using default num_itr=220")
-
     f.writelines("Number of iterations: "+str(num_its)+"\n")
 
     loss_over_time = []
-    # for itr in range(num_its):
-    #     (_, _, _, params), _loss = opt.step_and_cost(loss, train_X, train_y, vqc_model, params)
-    #     loss_over_time.append(_loss)
-    #     if (itr+1)%20 == 0:
-    #         print("Iteration:",itr+1,"/",num_its,"Loss:",_loss)
     opt = jaxopt.GradientDescent(loss_and_grad, stepsize=0.009, value_and_grad=True)
     opt_state = opt.init_state(params)
 
     for i in range(num_its):
-        #params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
         params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
     
     f.writelines(str(loss_over_time)+"\n")
@@ -260,7 +215,4 @@ def main():
     plt.show()
     title = "Bloch XZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
     plt.savefig("./Figs/qubit/"+title+".png")
-if __name__ == "__main__":
-    main()
-    f.writelines("--------------------------------------------\n")
-    f.close()
+
