@@ -84,8 +84,8 @@ def get_state(x_i,params):
     return [qml.expval(qml.PauliX(0)), qml.expval(qml.PauliY(0)), qml.expval(qml.PauliZ(0))]
 
 @jax.jit
-def loss(data, labels, params):    
-    loss_sum = []
+def loss(params, data, labels):    
+    loss_sum = jax.numpy.zeros(len(data))
     for idx in range(len(data)):
         data_point = data[idx]
         true_label = labels[idx]
@@ -93,21 +93,21 @@ def loss(data, labels, params):
 
         # jax.lax.cond((model_output<0 and true_label>0) || (),  print_training, print_fn, lambda: None)
         # if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
-        loss_sum.append((model_output - true_label) ** 2)
-
-    return np.sum(loss_sum)/len(data)
+        #     loss_sum.append((model_output - true_label) ** 2)
+        jax.lax.cond(true_label>0, lambda:jax.lax.cond(model_output<0,loss_sum.at[idx].set((model_output - true_label) ** 2), lambda:None), lambda: None)
+    return jax.numpy.sum(loss_sum)/len(data)
 
 # djax loss
-def loss_and_grad(data, labels, params,i,print_training=True):
-    loss_val, grad_val = jax.value_and_grad(loss)(data, labels, params)
-    print(loss_val)
-    print(grad_val)
+def loss_and_grad(params, data, labels, i, print_training=True):
+    loss_val, grad_val = jax.value_and_grad(loss)(params, data, labels)
+    # #print(loss_val)
+    # #print(grad_val)
 
-    def print_fn():
-        jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
+    # def print_fn():
+    #     jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
 
-    # if print_training=True, print the loss every 5 steps
-    jax.lax.cond((jnp.mod(i, 5) == 0) & print_training, print_fn, lambda: None)
+    # # if print_training=True, print the loss every 5 steps
+    # jax.lax.cond((jnp.mod(i, 5) == 0) & print_training, print_fn, lambda: None)
 
     return loss_val, grad_val
 
@@ -199,7 +199,9 @@ def main():
     opt_state = opt.init_state(params)
 
     for i in range(100):
-        params, opt_state = opt.update(train_X, train_y, params,i)
+        print("\nhi------------------\n")
+        #params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
+        params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
     
     f.writelines(str(loss_over_time)+"\n")
     f.writelines("Final params:"+str(params)+"\n")

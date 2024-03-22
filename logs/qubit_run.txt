@@ -96,3 +96,163 @@ Dataset size: 200
 Encoding scheme: B
 Initial parameters: [ 1.34761435  1.33021863 -0.2871725  -0.59203665]
 Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.02458684 -0.03731249  0.36670034 -0.65109289]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.53098144  0.61982338 -0.79287425  0.2710601 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.86025553  0.11623088  0.12343052  1.3615758 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.04093107  0.40346712 -0.57613208 -0.35288483]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.2888747  -0.9142181  -0.26240592 -2.45209369]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.77752393 -1.05697841  0.12576517 -0.16205148]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [1.80315374 0.09809818 1.98567636 0.4608603 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.48160574  0.08962394  0.96058064 -0.00594902]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.28870867  0.24749268 -2.11351273  1.62983008]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.8303042  -0.17550946 -1.63320546  0.975224  ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.60045483  1.07026005 -0.37142416  1.32113964]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.44003331  0.38646949  2.05140317  0.15411533]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.15414867 -1.14812313 -0.96987019 -0.24660242]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 3.02384399e-01 -1.22651347e-03  5.69414871e-01 -1.30289540e+00]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.74859357  1.02469167 -0.62210036  0.38065132]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.12138007  0.28895882  0.02542996 -0.30748365]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.2439417  -0.5581209  -1.59573168  0.3457439 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.87397792 -0.55985016 -0.58730756 -1.26770009]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-2.08456164  0.28396596 -0.30993013  0.83375304]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.68538337 -2.12063532  1.20931194 -0.30380478]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.04641363 -1.03835925 -1.7601067  -1.87223811]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.32610989 -0.13588302  0.16630867 -0.02254849]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 0.905875   -0.28750332  0.7611055  -0.63510992]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-0.47592482 -0.54711976  0.33600272  0.65243633]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.33398294  0.54148676 -1.48025538 -1.95329819]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.07003893  0.32541025  0.91435736  1.21924278]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.71694151  0.26652029 -0.83853657  0.35699423]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.31629162  0.46396703 -1.5438681   1.4469526 ]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [-1.73365928  1.96864842 -1.5305051  -1.33547003]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.00527778 -1.51571776 -1.75042173  0.28312627]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.62480636 -1.52063771  0.28772719  1.46896703]
+Number of iterations: 220
+Dataset: circular
+Dataset size: 200
+Encoding scheme: B
+Initial parameters: [ 1.9616421   1.31484493  0.4174633  -2.32131968]
+Number of iterations: 220
