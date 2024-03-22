@@ -60,3 +60,9 @@ options:
   + We wither need to use PCA on Iris to reduce dimensions to 2 so that it can be encoded with schemes A,B,C
   
   Or We need to pad some 0s to Iris to increase dimensions to 8 so that it can be encoded with schemes D1,D2,D3
+
+
+
+# JAX
++ jax-metal for Apple # not working with M2, uninstalled, trouble setting the qnode device. So just gonna work with nvidia gpu
++ pip install -U "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html for NVIDIA

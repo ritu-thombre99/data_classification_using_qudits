@@ -85,7 +85,7 @@ def get_state(x_i,params):
 
 @jax.jit
 def loss(params, data, labels):    
-    loss_sum = jax.numpy.zeros(len(data))
+    loss_sum = []
     for idx in range(len(data)):
         data_point = data[idx]
         true_label = labels[idx]
@@ -93,21 +93,20 @@ def loss(params, data, labels):
 
         # jax.lax.cond((model_output<0 and true_label>0) || (),  print_training, print_fn, lambda: None)
         # if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
-        #     loss_sum.append((model_output - true_label) ** 2)
-        jax.lax.cond(true_label>0, lambda:jax.lax.cond(model_output<0,loss_sum.at[idx].set((model_output - true_label) ** 2), lambda:None), lambda: None)
-    return jax.numpy.sum(loss_sum)/len(data)
+        loss_sum.append((model_output - true_label) ** 2)
+        # jax.lax.cond(true_label>0, lambda:jax.lax.cond(model_output<0,loss_sum.at[idx].set((model_output - true_label) ** 2), lambda:None), lambda: None)
+    loss_sum = jnp.asarray(loss_sum)
+    return jnp.sum(loss_sum)/len(data)
 
 # djax loss
 def loss_and_grad(params, data, labels, i, print_training=True):
     loss_val, grad_val = jax.value_and_grad(loss)(params, data, labels)
-    # #print(loss_val)
-    # #print(grad_val)
 
-    # def print_fn():
-    #     jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
+    def print_fn():
+        jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
 
-    # # if print_training=True, print the loss every 5 steps
-    # jax.lax.cond((jnp.mod(i, 5) == 0) & print_training, print_fn, lambda: None)
+    # if print_training=True, print the loss every 5 steps
+    jax.lax.cond((jnp.mod(i, 5) == 0) & print_training, print_fn, lambda: None)
 
     return loss_val, grad_val
 
@@ -199,7 +198,6 @@ def main():
     opt_state = opt.init_state(params)
 
     for i in range(100):
-        print("\nhi------------------\n")
         #params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
         params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
     
