@@ -105,7 +105,6 @@ def loss(params, data, labels):
                         append_loss_fn,
                         false_fn,
                     )
-        jax.debug.print("Temp loss: {temp_loss}", temp_loss=temp_loss)
         loss_sum = loss_sum.at[0].add(temp_loss)
 
         # (model_output>0 and true_label<0)
