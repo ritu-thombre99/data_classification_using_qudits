@@ -26,6 +26,8 @@ delete_figures('./Figs/qubit/')
 print("Deleting previous logs")
 delete_figures('./logs/')
 
+f = open("./logs/qubit_run.txt","a")
+
 for dataset in datasets:
     train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
     print("Benchmarking for dataset:",dataset)
@@ -36,4 +38,5 @@ for dataset in datasets:
             command = command + " --dataset_size "+str(dataset_size)
             command = command + " --num_itr "+str(itr)
             print(command)
-            run(dataset,sch,dataset_size,itr,train_X, test_X, train_y, test_y)
+            run(dataset,sch,dataset_size,itr,train_X, test_X, train_y, test_y,f)
+f.close()

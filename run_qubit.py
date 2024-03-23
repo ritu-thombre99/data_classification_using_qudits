@@ -33,9 +33,6 @@ config['encoding_and_rotation_scheme'] = 'B'
 config['s_params_size'] = 1
 config['w_params_size'] = 3
 
-f = open("./logs/qubit_run.txt","a")
-
-
 dev = qml.device("default.qubit.jax", wires=1)
 
 @jax.jit
@@ -178,8 +175,10 @@ def compute_accuracy(data, labels, model, params):
     return jnp.sum(preds) / len(data)
 
 # @jax.jit
-def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,num_its=220,train_X=None, test_X=None, train_y=None, test_y=None):
+def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,num_its=220,train_X=None,test_X=None, train_y=None, test_y=None,f=None,is_default=True):
 
+    if f is None:
+        f = open("./logs/qubit_run.txt","a")
     print("Dataset:",dataset)
     print("Size:",dataset_size)
     print("Scheme:",encoding_and_rotation_scheme)
@@ -197,6 +196,8 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
             train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
         elif dataset == 'moon':
             train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
+    else:
+        is_default = False
         
     s_params_size, w_params_size = scheme_config[encoding_and_rotation_scheme]
     params = jnp.asarray(np.random.normal(size=(s_params_size+w_params_size)))
@@ -293,4 +294,6 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     title = "Bloch XZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
     plt.savefig("./Figs/qubit/"+title+".png")
 
-f.close()
+    if is_default == True:
+        f.close()
+
