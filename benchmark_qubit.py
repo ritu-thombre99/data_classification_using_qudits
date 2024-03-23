@@ -7,8 +7,8 @@ matplotlib.use('Agg')
 from run_qubit import *
 datasets = ['xor','moon','circular']
 rotation_schemes = ['A','B','C','D','E','F']
-num_itrs = [100,150,200,250,300,350,400,450,500] # to do
-dataset_size = 200
+num_itrs = [100,200,300,400,500] # to do
+dataset_size = 1000
 
 def delete_figures(folder):
     for filename in os.listdir(folder):
