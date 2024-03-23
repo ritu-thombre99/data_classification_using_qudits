@@ -178,7 +178,7 @@ def compute_accuracy(data, labels, model, params):
     # ]) / n_samples
 
 # @jax.jit
-def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,num_its=220):
+def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,num_its=220,train_X=None, test_X=None, train_y=None, test_y=None):
 
     print("Dataset:",dataset)
     print("Size:",dataset_size)
@@ -190,13 +190,13 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     config['encoding_and_rotation_scheme'] = encoding_and_rotation_scheme
     config['s_params_size'], config['w_params_size'] = scheme_config[encoding_and_rotation_scheme]
 
-    train_X, test_X, train_y, test_y = None, None, None, None
-    if dataset == 'xor':
-        train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
-    elif dataset == 'circular':
-        train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
-    elif dataset == 'moon':
-        train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
+    if train_X is None:
+        if dataset == 'xor':
+            train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
+        elif dataset == 'circular':
+            train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
+        elif dataset == 'moon':
+            train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
         
     s_params_size, w_params_size = scheme_config[encoding_and_rotation_scheme]
     params = jnp.asarray(np.random.normal(size=(s_params_size+w_params_size)))

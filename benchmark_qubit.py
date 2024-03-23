@@ -27,6 +27,7 @@ print("Deleting previous logs")
 delete_figures('./logs/')
 
 for dataset in datasets:
+    train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
     print("Benchmarking for dataset:",dataset)
     for sch in rotation_schemes:
         for itr in num_itrs:
@@ -35,4 +36,4 @@ for dataset in datasets:
             command = command + " --dataset_size "+str(dataset_size)
             command = command + " --num_itr "+str(itr)
             print(command)
-            run(dataset,sch,dataset_size,itr)
+            run(dataset,sch,dataset_size,itr,train_X, test_X, train_y, test_y)
