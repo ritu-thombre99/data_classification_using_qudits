@@ -15,6 +15,7 @@ from qubit_models import *
 from helpers import *
 from datasets import *
 from functools import partial
+import optax
 
 # store the s_params and w_params required for any scheme
 scheme_config = {}
@@ -32,7 +33,7 @@ config['encoding_and_rotation_scheme'] = 'B'
 config['s_params_size'] = 1
 config['w_params_size'] = 3
 
-f = open("./logs/qubit_run.txt","a")
+# f = open("./logs/qubit_run.txt","a")
 
 
 dev = qml.device("default.qubit.jax", wires=1)
@@ -114,34 +115,75 @@ def loss(params, data, labels):
 
     return jnp.sum(loss_sum)/len(data)
 
-# djax loss
-def loss_and_grad(params, data, labels, i, print_training=True):
-    loss_val, grad_val = jax.value_and_grad(loss)(params, data, labels)
+# # djax loss
+# def loss_and_grad(params, data, labels, i, print_training=True):
+#     loss_val, grad_val = jax.value_and_grad(loss)(params, data, labels)
 
-    def print_fn():
-        jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
+#     def print_fn():
+#         jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
 
-    # if print_training=True, print the loss every 5 steps
-    jax.lax.cond((jnp.mod(i, 5) == 0) & print_training, print_fn, lambda: None)
+#     # if print_training=True, print the loss every 5 steps
+#     jax.lax.cond((jnp.mod(i, 5) == 0) & print_training, print_fn, lambda: None)
 
-    return loss_val, grad_val
+#     return loss_val, grad_val
+
+# def update_step(opt, params, opt_state, data, labels):
+#     loss_val, grads = jax.value_and_grad(loss)(params, data, labels)
+#     updates, opt_state = opt.update(grads, opt_state)
+#     params = optax.apply_updates(params, updates)
+#     return params, opt_state, loss_val
 
 
+
+@jax.jit
 def make_prediction(model, data_point, params):
     measurement_result = model(data_point, params)
-    if measurement_result < 0:
+
+    @jax.jit
+    def true_fn():
         return -1
-    return 1
+    def false_fn():
+        return 1
+    return jax.lax.cond(
+                    jax.numpy.greater(0,measurement_result),
+                    true_fn,
+                    false_fn,
+                )
 
+    # if measurement_result < 0:
+    #     return -1
+    # return 1
 
+@jax.jit
 def compute_accuracy(data, labels, model, params):
-    n_samples = len(data)
-    return sum(
-        [make_prediction(model, data[x], params) == labels[x] for x in range(n_samples)
-    ]) / n_samples
+    accuracy_sum = jnp.asarray([0.])
+    @jax.jit
+    def true_fn():
+        return 1.
+    def false_fn():
+        return 0.
+
+    for x in range(len(data)):
+        retval = jax.lax.cond(
+                        jax.numpy.equal(make_prediction(model, data[x], params),labels[x] ),
+                        true_fn,
+                        false_fn,
+                    )
+        accuracy_sum = accuracy_sum.at[0].add(retval)
 
 
+    return jnp.sum(accuracy_sum)/len(data)
+    # return sum(
+    #     [make_prediction(model, data[x], params) == labels[x] for x in range(n_samples)
+    # ]) / n_samples
+
+# @jax.jit
 def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,num_its=220):
+
+    print("Dataset:",dataset)
+    print("Size:",dataset_size)
+    print("Scheme:",encoding_and_rotation_scheme)
+    print("Iters:",num_its)    
 
     config = {}
     config['dataset'] = dataset
@@ -159,60 +201,98 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     s_params_size, w_params_size = scheme_config[encoding_and_rotation_scheme]
     params = jnp.asarray(np.random.normal(size=(s_params_size+w_params_size)))
 
-    f.writelines("Dataset: "+dataset+"\n")
-    f.writelines("Dataset size: "+str(dataset_size)+"\n")
-    f.writelines("Encoding scheme: "+str(encoding_and_rotation_scheme)+"\n")
+    # f.writelines("Dataset: "+dataset+"\n")
+    # f.writelines("Dataset size: "+str(dataset_size)+"\n")
+    # f.writelines("Encoding scheme: "+str(encoding_and_rotation_scheme)+"\n")
 
 
     print("Initial parameters:",params)
-    f.writelines("Initial parameters: "+str(params)+"\n")
-    f.writelines("Number of iterations: "+str(num_its)+"\n")
+    # f.writelines("Initial parameters: "+str(params)+"\n")
+    # f.writelines("Number of iterations: "+str(num_its)+"\n")
 
-    loss_over_time = []
-    opt = jaxopt.GradientDescent(loss_and_grad, stepsize=0.009, value_and_grad=True)
-    opt_state = opt.init_state(params)
+    # opt = jaxopt.GradientDescent(loss_and_grad, stepsize=0.009, value_and_grad=True)
+    # opt_state = opt.init_state(params)
+    opt = optax.sgd(learning_rate=0.003)
 
-    for i in range(num_its):
-        params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
+
+    @jax.jit
+    def update_step_jit(i, args):
+        params, opt_state, data, labels, print_training = args
+
+        loss_val, grads = jax.value_and_grad(loss)(params, data, labels)
+        updates, opt_state = opt.update(grads, opt_state)
+        params = optax.apply_updates(params, updates)
+
+        def print_fn():
+            jax.debug.print("Step: {i}  Loss: {loss_val}", i=i, loss_val=loss_val)
+
+        # if print_training=True, print the loss every 5 steps
+        jax.lax.cond((jnp.mod(i, 20) == 0) & print_training, print_fn, lambda: None)
+
+        return (params, opt_state, data, labels, print_training)
+    @jax.jit
+    def optimization_jit(params, data, targets, print_training=False):
+
+        opt_state = opt.init(params)
+        args = (params, opt_state, data, targets, print_training)
+        (params, opt_state, _, _, _) = jax.lax.fori_loop(0, 100, update_step_jit, args)
+
+        return params
+
+    params = optimization_jit(params, train_X, train_y, True)
+    # opt_state = opt.init(params)
     
-    f.writelines(str(loss_over_time)+"\n")
-    f.writelines("Final params:"+str(params)+"\n")
+    # for i in range(num_its):
+    #     # params, opt_state = opt.update(params, opt_state, train_X, train_y, i)
+    #     params, opt_state, loss_val = update_step(opt, params, opt_state, train_X, train_y)
+
+    #     if i % 5 == 0:
+    #         print(f"Step: {i} Loss: {loss_val}")
+
+    #     loss_over_time.append(loss_val)
     
-    training_accuracy = compute_accuracy(train_X, train_y, vqc_model, params)
-    testing_accuracy = compute_accuracy(test_X, test_y, vqc_model, params)
-
-    print(f"Training accuracy = {training_accuracy}")
-    f.writelines("Training accuracy:"+str(training_accuracy)+"\n")
-
-    print(f"Testing accuracy = {testing_accuracy}")
-    f.writelines("Testing accuracy:"+str(testing_accuracy)+"\n")
+    print("Final params:",params)
+    # f.writelines(str(loss_over_time)+"\n")
+    # f.writelines("Final params:"+str(params)+"\n")
     
-    plt.plot(loss_over_time)
-    plt.plot([], [], ' ', label="Training Accuracy:"+str(training_accuracy))
-    plt.plot([], [], ' ', label="Testing Accuracy:"+str(testing_accuracy))
-    plt.xlabel("Iterations")
-    plt.ylabel("Loss")
-    title = "Loss for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
-    plt.title(title)
-    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
-    plt.show()
-    plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
+    # training_accuracy = compute_accuracy(train_X, train_y, vqc_model, params)
+    # testing_accuracy = compute_accuracy(test_X, test_y, vqc_model, params)
+
+    # print(f"Training accuracy = {training_accuracy}")
+    # f.writelines("Training accuracy:"+str(training_accuracy)+"\n")
+
+    # print(f"Testing accuracy = {testing_accuracy}")
+    # f.writelines("Testing accuracy:"+str(testing_accuracy)+"\n")
     
-    yz_op_state = []
-    xz_op_state = []
-    for i in range(len(train_X)):
-        x,y,z = (get_state(train_X[i],params))
-        yz_op_state.append([y,z])
-        xz_op_state.append([x,z])
-    yz_op_state = jnp.array(yz_op_state)
-    xz_op_state = jnp.array(xz_op_state)
-    plot_classified_data_on_bloch(yz_op_state,train_y)
-    plt.show()
-    title = "Bloch YZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
-    plt.savefig("./Figs/qubit/"+title+".png")
+    # plt.plot(loss_over_time)
+    # plt.plot([], [], ' ', label="Training Accuracy:"+str(training_accuracy))
+    # plt.plot([], [], ' ', label="Testing Accuracy:"+str(testing_accuracy))
+    # plt.xlabel("Iterations")
+    # plt.ylabel("Loss")
+    # title = "Loss for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
+    # plt.title(title)
+    # plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
+    # plt.show()
+    # plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
+    
+    # yz_op_state = []
+    # xz_op_state = []
+    # for i in range(len(train_X)):
+    #     x,y,z = (get_state(train_X[i],params))
+    #     yz_op_state.append([y,z])
+    #     xz_op_state.append([x,z])
+    # yz_op_state = jnp.array(yz_op_state)
+    # xz_op_state = jnp.array(xz_op_state)
+    # plot_classified_data_on_bloch(yz_op_state,train_y)
+    # plt.show()
+    # title = "Bloch YZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
+    # plt.savefig("./Figs/qubit/"+title+".png")
 
-    plot_classified_data_on_bloch(xz_op_state,train_y)
-    plt.show()
-    title = "Bloch XZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
-    plt.savefig("./Figs/qubit/"+title+".png")
+    # plot_classified_data_on_bloch(xz_op_state,train_y)
+    # plt.show()
+    # title = "Bloch XZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
+    # plt.savefig("./Figs/qubit/"+title+".png")
+    return
 
+run()
+# f.close()
