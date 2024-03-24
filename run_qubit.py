@@ -270,7 +270,7 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     training_accuracy = int((10**5)*training_accuracy)/(10**5)
     testing_accuracy = int((10**5)*testing_accuracy)/(10**5)
     plt.plot([], [], ' ', label="Training Accuracy:"+str(training_accuracy))
-    plt.plot([], [], ' ', label="Testing Accuracy:"+str(testing_accuracy,5))
+    plt.plot([], [], ' ', label="Testing Accuracy:"+str(testing_accuracy))
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
     title = "Loss for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
@@ -300,3 +300,4 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     if is_default == True:
         f.close()
 
+run()
