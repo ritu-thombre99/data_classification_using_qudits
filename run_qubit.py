@@ -264,6 +264,7 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
 
     print(f"Testing accuracy = {testing_accuracy}")
     f.writelines("Testing accuracy:"+str(testing_accuracy)+"\n")
+    f.writelines("------------------------------------\n")
     
     plt.plot(loss_over_time)
     plt.plot([], [], ' ', label="Training Accuracy:"+str(training_accuracy))

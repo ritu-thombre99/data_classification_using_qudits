@@ -8,7 +8,7 @@ from run_qubit import *
 datasets = ['xor','moon','circular']
 rotation_schemes = ['A','B','C','D','E','F']
 num_itrs = [100,200,300,400,500] # to do
-dataset_size = 1000
+dataset_size = 300
 
 def delete_figures(folder):
     for filename in os.listdir(folder):
@@ -26,7 +26,7 @@ delete_figures('./Figs/qubit/')
 print("Deleting previous logs")
 delete_figures('./logs/')
 
-f = open("./logs/qubit_run.txt","a")
+f = open("./logs/qubit_run.txt","w")
 
 for dataset in datasets:
     train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
