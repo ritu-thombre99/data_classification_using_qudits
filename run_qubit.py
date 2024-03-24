@@ -267,8 +267,8 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     f.writelines("------------------------------------\n")
     
     plt.plot(loss_over_time)
-    plt.plot([], [], ' ', label="Training Accuracy:"+str(training_accuracy))
-    plt.plot([], [], ' ', label="Testing Accuracy:"+str(testing_accuracy))
+    plt.plot([], [], ' ', label="Training Accuracy:"+str(np.round(training_accuracy,5)))
+    plt.plot([], [], ' ', label="Testing Accuracy:"+str(np.round(testing_accuracy,5)))
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
     title = "Loss for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
@@ -276,7 +276,7 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
     plt.show()
     plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
-    
+    plt.close()
     yz_op_state = []
     xz_op_state = []
     for i in range(len(train_X)):
@@ -289,12 +289,12 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     plt.show()
     title = "Bloch YZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
     plt.savefig("./Figs/qubit/"+title+".png")
-
+    plt.close()
     plot_classified_data_on_bloch(xz_op_state,train_y)
     plt.show()
     title = "Bloch XZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
     plt.savefig("./Figs/qubit/"+title+".png")
-
+    plt.close()
     if is_default == True:
         f.close()
 
