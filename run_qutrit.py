@@ -147,11 +147,11 @@ def main():
         return
     # preprocessing wine
     if config['dataset'] == 'wine':
-        if encoding_and_rotation in ['D1','D2','D3']:
+        if config['encoding_and_rotation'] in ['D1','D2','D3']:
             pca = PCA(8)
             train_X = pca.fit_transform(train_X)
             test_X = pca.fit_transform(test_X)
-        elif encoding_and_rotation == 'E':
+        elif config['encoding_and_rotation'] == 'E':
             pca = PCA(4)
             train_X = pca.fit_transform(train_X)
             test_X = pca.fit_transform(test_X)
