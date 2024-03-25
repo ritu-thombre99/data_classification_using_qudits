@@ -96,3 +96,21 @@ def scheme_d3(x_i,s_params,w_params):
     rotate_U = np.exp(1j*U)
     qml.QutritUnitary(rotate_U,wires=0)
              
+
+# x_i has 4 features           
+def scheme_e(x_i,s_params,w_params): 
+    # input vector x   
+
+    U = x_i[0]*lambdas[1]
+    for i in range(1,4):
+        U = U + x_i[i]*lambdas[i+1]
+    U = s_params[0]*U
+    encode_U = np.exp(1j*U)
+    qml.QutritUnitary(encode_U,wires=0)
+
+    U = w_params[0]*lambdas[8]
+    for i in range(1,4):
+        U = U + w_params[i]*lambdas[8]
+    rotate_U = np.exp(1j*U)
+    qml.QutritUnitary(rotate_U,wires=0)
+             

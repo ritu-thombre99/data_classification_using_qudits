@@ -18,10 +18,11 @@ scheme_config['C'] = [4,4]
 scheme_config['D1'] = [1,7]
 scheme_config['D2'] = [4,4]
 scheme_config['D3'] = [8,1]
+scheme_config['E'] = [1,4]
 
 # default scheme: B
 config = {}
-config['dataset'] = 'circular'
+config['dataset'] = 'moon'
 config['encoding_and_rotation_scheme'] = 'B'
 config['s_params_size'] = 4
 config['w_params_size'] = 4
@@ -44,6 +45,8 @@ def vqc_model(x_i, params):
         scheme_d2(x_i,s_params,w_params)
     elif scheme == 'D3':
         scheme_d3(x_i,s_params,w_params)
+    elif scheme == 'E':
+        scheme_e(x_i,s_params,w_params)
     obs = qml.GellMann(0,3)+np.sqrt(3)*qml.GellMann(0,8)
     return qml.expval(obs)
 
@@ -55,9 +58,7 @@ def loss(data, labels, model, params):
         data_point = data[idx]
         true_label = labels[idx]
         model_output = model(data_point, params)
-        print(model_output,end=' ')
         if config["binary_classifier"]  == True:
-            print("Bin class")
             if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
                 loss_sum.append((model_output - true_label) ** 2)
         else:
@@ -87,111 +88,89 @@ def make_prediction(model, data_point, params):
 
 def compute_accuracy(data, labels, model, params):
     n_samples = len(data)
-    for x in range(n_samples):
-        print(make_prediction(model, data[x], params),labels[x])
+    # for x in range(n_samples):
+    #     print(make_prediction(model, data[x], params),labels[x])
     return np.sum(
         [make_prediction(model, data[x], params) == labels[x] for x in range(n_samples)
     ]) / n_samples
 
 def main():
-    binary_datasets = ['moon','xor','circular']
-    ternary_datasets = ['wine','iris','xor']
-    train_X, test_X, train_y, test_y = None, None, None, None
-    binary_classifier = (input("Enter True for binary classifier, False for ternary classifier: "))
-    if binary_classifier == "True":
-        print("Enter the dataset from the following: [moon,circular,xor]")
-        dataset = input("Deualt is circular: ")
-        if dataset not in binary_datasets:
-            print("Enter valid dataset")
-            return 
-        config['dataset'] =  dataset
-        try:
-            dataset_size = int(input("Enter the dataset size: "))
-        except Exception as e:
-            print(e)
-            return
-        encoding_and_rotation = input("Enter encoding and rotation scheme from [A,B,C]: ")
-        if encoding_and_rotation not in ['A','B','C']:
-            print("Enter valid scheme")
-            return 
-        config['encoding_and_rotation_scheme'] = encoding_and_rotation
-        config['s_params_size'], config['w_params_size'] = scheme_config[config['encoding_and_rotation_scheme']]
-
-        if config['dataset'] == 'xor':
-            train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
-        elif config['dataset'] == 'circular':
-            train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
-        elif config['dataset'] == 'moon':
-            train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
-    elif binary_classifier == "False":
-        config["binary_classifier"] = False
-        dataset = input("Enter the dataset from the following: [wine,iris,xor]: ")
-        if dataset not in ternary_datasets:
-            print("Enter valid dataset")
-            return 
-        config['dataset'] = dataset 
-        
-        encoding_and_rotation = input("Enter encoding and rotation scheme from [A,B,C,D1,D2,D3] XOR wont works with D1,D2,D3: ")
-        if encoding_and_rotation not in ['A','B','C','D1','D2','D3']:
-            print("Enter valid scheme")
-        config['encoding_and_rotation_scheme'] = encoding_and_rotation
-        config['s_params_size'], config['w_params_size'] = scheme_config[config['encoding_and_rotation_scheme']]
-
-        if config['dataset'] == 'wine':
-            train_X, test_X, train_y, test_y = get_wine_dataset()
-            if encoding_and_rotation in ['A','B','C']:
-                pca = PCA(2)
-                train_X = pca.fit_transform(train_X)
-                test_X = pca.fit_transform(test_X)
-            else:
-                pca = PCA(8)
-                train_X = pca.fit_transform(train_X)
-                test_X = pca.fit_transform(test_X)
-
-        elif config['dataset'] == 'iris':
-            train_X, test_X, train_y, test_y = iris_dataset()
-            if encoding_and_rotation in ['A','B','C']:
-                pca = PCA(2)
-                train_X = pca.fit_transform(train_X)
-                test_X = pca.fit_transform(test_X)
-                print("After PCA:",train_X.shape, test_X.shape)
-            else:
-                train_X = np.pad(train_X, ((0,0),(0,4)), 'constant')
-                test_X = np.pad(test_X, ((0,0),(0,4)), 'constant')
-                print("After reshape:",train_X.shape, test_X.shape)
-
-
-        elif config['dataset'] == 'xor':
-            if config['encoding_and_rotation_scheme'] in ['D1','D2','D3']:
-                print("Cannot use D1,D2,D3 encoding scheme with XOR data, only A,B,C works")
-                return 
-            try:
-                dataset_size = int(input("Enter the dataset size: "))
-            except Exception as e:
-                print(e)
-                return
-            train_X, test_X, train_y, test_y = get_three_class_xor_data(dataset_size) 
-    else:
-        print("Invalid input")
-        return 
-
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--encoding_and_rotation",type=str,
+                        choices=['A','B','C','D1','D2','D3','E'],help="choose the encoding and rotation scheme, default B")
+    parser.add_argument("--dataset",type=str,
+                        choices=['xor','noisy_xor','moon','wine','iris'],help="choose the dataset, default moon")
+    parser.add_argument("--num_itr",type=int,help="Enter number of iterations for training")
+    args = parser.parse_args()
     
+    if args.encoding_and_rotation:
+        config['encoding_and_rotation_scheme'] = args.encoding_and_rotation
+    if args.dataset:
+        config['dataset'] = args.dataset
+    
+    if config['encoding_and_rotation_scheme'] not in ['A','B','C','D1','D2','D3','E']:
+        print("Invalid Encoding and Rotation scheme. Allowed Schemes: A,B,C,D1,D2,D3,E")
+        return
+    if config['dataset'] not in ['xor','noisy_xor','moon','wine','iris']:
+        print("Invalid dataset. Choose from [XOR,Noisy XOR,Moon,Iris,Wine]")
+        return
+    
+    if config['encoding_and_rotation_scheme'] != 'B':
+        config['s_params_size'], config['w_params_size'] = scheme_config[config['encoding_and_rotation_scheme']]
+        
+    train_X, test_X, train_y, test_y = None, None, None, None
+    dataset_size = 300
+    if config['dataset'] == 'xor':
+        train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
+    elif config['dataset'] == 'moon':
+        train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
+    elif config['dataset'] == 'noisy_xor':
+        config["binary_classifier"] = False
+        train_X, test_X, train_y, test_y = get_three_class_xor_data(dataset_size)
+        plot_2d_data(train_X,train_y)
+        plt.show()
+    elif config['dataset'] == 'iris': 
+        config["binary_classifier"] = False
+        train_X, test_X, train_y, test_y = iris_dataset()
+    elif config['dataset'] == 'wine': 
+        config["binary_classifier"] = False
+        train_X, test_X, train_y, test_y = get_wine_dataset() 
+    
+    if config['encoding_and_rotation_scheme'] in ['A','B','C'] and config['dataset'] in ['iris','wine']:
+        print("Wine and Iris cannot be used witj encoding schemes A,B,C")
+        return
+    if config['encoding_and_rotation_scheme'] in ['D1','D2','D3','E'] and config['dataset'] not in ['iris','wine']:
+        print("XOR and Moon cannot be used witj encoding schemes D1,D2,D3,E")
+        return
+    if config['encoding_and_rotation_scheme'] in ['D1','D2','D3'] and config['dataset'] == 'iris':
+        print("Iris does not work with D1,D2,D3")
+        return
+    # preprocessing wine
+    if config['dataset'] == 'wine':
+        if encoding_and_rotation in ['D1','D2','D3']:
+            pca = PCA(8)
+            train_X = pca.fit_transform(train_X)
+            test_X = pca.fit_transform(test_X)
+        elif encoding_and_rotation == 'E':
+            pca = PCA(4)
+            train_X = pca.fit_transform(train_X)
+            test_X = pca.fit_transform(test_X)
+
+
     # opt = qml.AdamOptimizer(stepsize=0.00087)
     opt = qml.GradientDescentOptimizer(stepsize=0.009)
     num_its = 220
-    try:
-        num_its = int(input("Enter number of iterations (Default:220): "))
-    except Exception as e:
-        print(e)
-        return
+    if type(args.num_itr) == str and args.num_itr.isdigit() == True:
+        args.num_itr = int(args.num_itr)
+    if type(args.num_itr) == int:
+        num_its = args.num_itr
+    else:
+        print("Number of itreations should be integer, using default num_itr=220")
+
     s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
     params = np.random.normal(size=(s_params_size+w_params_size))#*100
     init_loss = loss(train_X, train_y, vqc_model, params)
-    # while init_loss>500:
-    #     print("Loss too big:",init_loss)
-    #     print("Generating new params")
-    #     params = np.random.normal(size=(s_params_size+w_params_size))#*100
-
+    
     print("Initial parameters:",params)
     loss_over_time = []
     for itr in range(num_its):
@@ -208,7 +187,7 @@ def main():
     plt.plot(loss_over_time)
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
-    plt.title("Loss for "+config['dataset']+" using single qubit with scheme "+config['encoding_and_rotation_scheme'])
+    plt.title("Loss for "+config['dataset']+" using single qutrit with scheme "+config['encoding_and_rotation_scheme'])
     plt.show()
     
     # op_state = []
