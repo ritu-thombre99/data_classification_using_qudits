@@ -300,4 +300,3 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     if is_default == True:
         f.close()
 
-run()
