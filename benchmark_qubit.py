@@ -74,6 +74,7 @@ for l in lines:
         while '' in final_params:
             final_params.remove('')
         final_params = (np.asarray(final_params,dtype=float))
+        row['final_params'] = final_params
 
         num_its = int(l[4][len('Number of iterations: '):])
         row['Iterations'] = num_its
@@ -97,8 +98,44 @@ xor_df = df.groupby('Dataset').get_group('xor')
 circular_df = df.groupby('Dataset').get_group('circular')
 moon_df = df.groupby('Dataset').get_group('moon')
 
+import pennylane as qml
+from qubit_models import *
+scheme_config = {}
+scheme_config['A'] = [1,1]
+scheme_config['B'] = [1,3]
+scheme_config['C'] = [0,3]
+scheme_config['D'] = [2,3]
+scheme_config['E'] = [2,2]
+scheme_config['F'] = [3,3]
+scheme_config['G'] = [1,2]
+
+dev = qml.device("default.qubit", wires=1)
+@qml.qnode(dev)
+def get_state(x_i,params,scheme):
+    s_params_size = scheme_config[scheme][0]
+    s_params,w_params = params[:s_params_size], params[s_params_size:]
+    if scheme == 'A':
+        scheme_a(x_i,s_params,w_params)
+    elif scheme == 'B':
+        scheme_b(x_i,s_params,w_params)
+    elif scheme == 'C':
+        scheme_c(x_i,w_params)
+    elif scheme == 'D':
+        scheme_d(x_i,s_params,w_params)
+    elif scheme == 'E':
+        scheme_e(x_i,s_params,w_params)
+    elif scheme == 'F':
+        scheme_f(x_i,s_params,w_params)
+    elif scheme == 'G':
+        scheme_g(x_i,s_params,w_params)
+        print("Yet to implement the scheme G with 3d data")
+    return [qml.expval(qml.PauliX(0)), qml.expval(qml.PauliY(0)), qml.expval(qml.PauliZ(0))]
+
+
 import matplotlib.pyplot as plt
 import sns
+from datasets import *
+from helpers import *
 def plot_datafram(df,dataset):
     print(dataset)
     def get_loss(df):
@@ -153,6 +190,57 @@ def plot_datafram(df,dataset):
         plt.show()
         plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
         plt.close()
+
+        if dataset == 'xor':
+            train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
+        elif dataset == 'circular':
+            train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
+        elif dataset == 'moon':
+            train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
+        
+
+        test_max_indices = [X[i] for i, x in enumerate(test) if x == max(test)]
+        train_max_indices = [X[i] for i, x in enumerate(train) if x == max(train)]
+        intersection = (list(set(train_max_indices).intersection(test_max_indices)))
+        print("Max test accuracy for schemes:",test_max_indices)
+        print("Max train accuracy for schemes:",train_max_indices)
+        print("Intersections:",intersection)
+        best_schemes = test_max_indices
+        if len(intersection) != 0:
+            best_schemes = intersection
+        for best_scheme in best_schemes:
+            final_params = (itr_df[itr_df['Scheme']==best_scheme]['final_params'].iloc[0])
+            yz_op_state = []
+            xz_op_state = []
+            for i in range(len(train_X)):
+                x,y,z = (get_state(train_X[i],final_params,best_scheme))
+                yz_op_state.append([y,z])
+                xz_op_state.append([x,z])
+            for i in range(len(test_X)):
+                x,y,z = (get_state(test_X[i],final_params,best_scheme))
+                yz_op_state.append([y,z])
+                xz_op_state.append([x,z])
+
+            yz_op_state = np.array(yz_op_state)
+            xz_op_state = np.array(xz_op_state)
+            classes = np.concatenate((train_y,test_y), axis=None)
+            
+            plot_classified_data_on_bloch(yz_op_state,classes)
+            title = "Bloch YZ for "+dataset+" with scheme "+best_scheme+" itr: "+str(itr)
+            plt.title(title)
+            plt.grid()
+            plt.show()
+            plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
+            plt.close()
+
+            plot_classified_data_on_bloch(xz_op_state,classes)
+            title = "Bloch XZ for "+dataset+" with scheme "+best_scheme+" itr: "+str(itr)
+            plt.title(title)
+            plt.grid()
+            plt.show()
+            plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
+            plt.close()
+
 
 plot_datafram(moon_df,'moon')
 plot_datafram(circular_df,'circular')
