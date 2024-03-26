@@ -41,6 +41,8 @@ for dataset in datasets:
             run(dataset,sch,dataset_size,itr,train_X, test_X, train_y, test_y,f)
 f.close()
 
+
+
 import numpy as np
 import pandas as pd
 f = open('./logs/qubit_run.txt')
@@ -95,21 +97,21 @@ xor_df = df.groupby('Dataset').get_group('xor')
 circular_df = df.groupby('Dataset').get_group('circular')
 moon_df = df.groupby('Dataset').get_group('moon')
 
-
 import matplotlib.pyplot as plt
 import sns
 def plot_datafram(df,dataset):
-
+    print(dataset)
     def get_loss(df):
         unique_schemes = df['Scheme'].unique()
         return_val = []
         for s in unique_schemes:
             scheme_df = df.groupby('Scheme').get_group(s)
             return_val.append(scheme_df['Loss'].iloc[0])
-        return return_val
+        return unique_schemes,return_val
     def get_accuracies(df):
         unique_schemes = df['Scheme'].unique()
         tr,ts = [],[]
+        print("Unique schemes:",unique_schemes)
         for s in unique_schemes:
             scheme_df = df.groupby('Scheme').get_group(s)
             tr_acc = scheme_df['Training accuracy'].iloc[0]
@@ -119,14 +121,14 @@ def plot_datafram(df,dataset):
             tr.append(tr_acc)
             ts.append(ts_acc)
             
-        return tr,ts
+        return unique_schemes,tr,ts
         
     unique_itrs = df['Iterations'].unique()
     for itr in unique_itrs:
         print("Iterations:",itr)
         itr_df = df.groupby('Iterations').get_group(itr)
-        losses = get_loss(itr_df)
-        schemes = ['A','B','C','D','E','F']
+        schemes,losses = get_loss(itr_df)
+        
         x = list(range(1,itr+1))
         for l,s in zip(losses,schemes):
             plt.plot(x,l,label="Scheme:"+s)
@@ -139,11 +141,8 @@ def plot_datafram(df,dataset):
         plt.close()
 
 
-        train,test = get_accuracies(itr_df)
-        X = df['Scheme'].unique()
-
+        X,train,test = get_accuracies(itr_df)
         bar_df = pd.DataFrame(np.c_[train,test], index=X,columns=['Train Accuracy','Test Accuracy'])
-        print(bar_df)
         ax = bar_df.plot.bar()
         for container in ax.containers:
             ax.bar_label(container)
@@ -155,8 +154,6 @@ def plot_datafram(df,dataset):
         plt.savefig("./Figs/qubit/"+title+".png")
         plt.close()
 
-plot_datafram(xor_df,'xor')
 plot_datafram(moon_df,'moon')
 plot_datafram(circular_df,'circular')
-
-        
+plot_datafram(xor_df,'xor')
