@@ -137,7 +137,7 @@ def plot_datafram(df,dataset):
         title = "Loss vs Iters ("+str(itr)+") Dataset:"+dataset
         plt.title(title)
         plt.show()
-        plt.savefig("./Figs/qubit/"+title+".png")
+        plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
         plt.close()
 
 
@@ -151,7 +151,7 @@ def plot_datafram(df,dataset):
         title = "Accuracy vs Schemes ("+str(itr)+") Dataset:"+dataset
         plt.title(title)
         plt.show()
-        plt.savefig("./Figs/qubit/"+title+".png")
+        plt.savefig("./Figs/qubit/"+title+".png",bbox_inches = 'tight')
         plt.close()
 
 plot_datafram(moon_df,'moon')
