@@ -82,6 +82,7 @@ def loss(data, labels, model, params):
         data_point = data[idx]
         true_label = labels[idx]
         model_output = model(data_point, params)
+
         if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
             loss_sum.append((model_output - true_label) ** 2)
 
@@ -101,67 +102,44 @@ def compute_accuracy(data, labels, model, params):
         [make_prediction(model, data[x], params) == labels[x] for x in range(n_samples)
     ]) / n_samples
 
-def main():
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--encoding_and_rotation",type=str,
-                        choices=['A','B','C','D','E','F','G'],help="choose the encoding and rotation scheme, default B")
-    parser.add_argument("--dataset",type=str,
-                        choices=['xor','moon','circular'],help="choose the dataset, default circular boundary")
-    parser.add_argument("--dataset_size",type=int,help="Enter the dataset size")
-    parser.add_argument("--num_itr",type=int,help="Enter number of iterations for training")
-    args = parser.parse_args()
-    
-    if args.encoding_and_rotation:
-        config['encoding_and_rotation_scheme'] = args.encoding_and_rotation
-    if args.dataset:
-        config['dataset'] = args.dataset
-    
-    if config['encoding_and_rotation_scheme'] not in ['A','B','C','D','E','F','G']:
-        print("Invalid Encoding and Rotation scheme. Allowed Schemes: A,B,C,D,E,F,G")
-        return
-    if config['dataset'] not in ['xor','moon','circular']:
-        print("Invalid dataset. Choose from [Moon,XOR,Circular boundary]")
-        return
-    
-    if config['encoding_and_rotation_scheme'] != 'B':
-        config['s_params_size'], config['w_params_size'] = scheme_config[config['encoding_and_rotation_scheme']]
-        
-    train_X, test_X, train_y, test_y = None, None, None, None
-    dataset_size = 200
-    if type(args.dataset_size) == str and args.dataset_size.isdigit() == True:
-        args.dataset_size = int(args.dataset_size)
-    if type(args.dataset_size) == int:
-        dataset_size = args.dataset_size
-    if config['dataset'] == 'xor':
-        train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
-    elif config['dataset'] == 'circular':
-        train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
-    elif config['dataset'] == 'moon':
-        train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
-        
-    s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
-    params = np.random.normal(size=(s_params_size+w_params_size))#*100
+def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,num_its=220,train_X=None,test_X=None, train_y=None, test_y=None,f=None,is_default=True):
 
-    f.writelines("Dataset: "+config['dataset']+"\n")
+    if f is None:
+        f = open("./logs/qubit_run.txt","a")
+    print("Dataset:",dataset)
+    print("Size:",dataset_size)
+    print("Scheme:",encoding_and_rotation_scheme)
+    print("Iters:",num_its)    
+
+    config = {}
+    config['dataset'] = dataset
+    config['encoding_and_rotation_scheme'] = encoding_and_rotation_scheme
+    config['s_params_size'], config['w_params_size'] = scheme_config[encoding_and_rotation_scheme]
+
+    if train_X is None:
+        if dataset == 'xor':
+            train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
+        elif dataset == 'circular':
+            train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
+        elif dataset == 'moon':
+            train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
+    else:
+        is_default = False
+        
+    s_params_size, w_params_size = scheme_config[encoding_and_rotation_scheme]
+    params = np.random.normal(size=(s_params_size+w_params_size))
+
+    f.writelines("Dataset: "+dataset+"\n")
     f.writelines("Dataset size: "+str(dataset_size)+"\n")
-    f.writelines("Encoding scheme: "+str(config['encoding_and_rotation_scheme'])+"\n")
+    f.writelines("Encoding scheme: "+str(encoding_and_rotation_scheme)+"\n")
 
 
     print("Initial parameters:",params)
     f.writelines("Initial parameters: "+str(params)+"\n")
-    # opt = qml.AdamOptimizer(stepsize=0.00087)
-    opt = qml.GradientDescentOptimizer(stepsize=0.009)
-    num_its = 220
-    if type(args.num_itr) == str and args.num_itr.isdigit() == True:
-        args.num_itr = int(args.num_itr)
-    if type(args.num_itr) == int:
-        num_its = args.num_itr
-    else:
-        print("Number of itreations should be integer, using default num_itr=220")
-
     f.writelines("Number of iterations: "+str(num_its)+"\n")
 
+    opt = qml.GradientDescentOptimizer(stepsize=0.009)
     loss_over_time = []
     for itr in range(num_its):
         (_, _, _, params), _loss = opt.step_and_cost(loss, train_X, train_y, vqc_model, params)
@@ -169,7 +147,10 @@ def main():
         if (itr+1)%20 == 0:
             print("Iteration:",itr+1,"/",num_its,"Loss:",_loss)
     
+    print("Final params:",params)
     f.writelines(str(loss_over_time)+"\n")
+    f.writelines("Final params:"+str(params)+"\n")
+    
     training_accuracy = compute_accuracy(train_X, train_y, vqc_model, params)
     testing_accuracy = compute_accuracy(test_X, test_y, vqc_model, params)
 
@@ -178,33 +159,7 @@ def main():
 
     print(f"Testing accuracy = {testing_accuracy}")
     f.writelines("Testing accuracy:"+str(testing_accuracy)+"\n")
+    f.writelines("------------------------------------\n")
     
-    plt.plot(loss_over_time)
-    plt.xlabel("Iterations")
-    plt.ylabel("Loss")
-    title = "Loss for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
-    plt.title(title)
-    plt.show()
-    plt.savefig("./Figs/qubit/"+title+".png")
-    
-    yz_op_state = []
-    xz_op_state = []
-    for i in range(len(train_X)):
-        x,y,z = (get_state(train_X[i],params))
-        yz_op_state.append([y,z])
-        xz_op_state.append([x,z])
-    yz_op_state = np.array(yz_op_state)
-    xz_op_state = np.array(xz_op_state)
-    plot_classified_data_on_bloch(yz_op_state,train_y)
-    plt.show()
-    title = "Bloch YZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
-    plt.savefig("./Figs/qubit/"+title+".png")
-
-    plot_classified_data_on_bloch(xz_op_state,train_y)
-    plt.show()
-    title = "Bloch XZ for "+config['dataset']+" with scheme "+config['encoding_and_rotation_scheme']+" itr: "+str(num_its)
-    plt.savefig("./Figs/qubit/"+title+".png")
-if __name__ == "__main__":
-    main()
-    f.writelines("--------------------------------------------\n")
-    f.close()
+    if is_default == True:
+        f.close()

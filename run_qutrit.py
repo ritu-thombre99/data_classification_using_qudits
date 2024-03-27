@@ -50,6 +50,31 @@ def vqc_model(x_i, params):
     obs = qml.GellMann(0,3)+np.sqrt(3)*qml.GellMann(0,8)
     return qml.expval(obs)
 
+@qml.qnode(dev)
+def get_state(x_i, params,obs_name):
+    s_params,w_params = params[:config['s_params_size']], params[config['s_params_size']:]
+    scheme = config['encoding_and_rotation_scheme']
+    if scheme == 'A':
+        scheme_a(x_i,s_params,w_params)
+    elif scheme == 'B':
+        scheme_b(x_i,s_params,w_params)
+    elif scheme == 'C':
+        scheme_c(x_i,s_params,w_params)
+    elif scheme == 'D1':
+        scheme_d1(x_i,s_params,w_params)
+    elif scheme == 'D2':
+        scheme_d2(x_i,s_params,w_params)
+    elif scheme == 'D3':
+        scheme_d3(x_i,s_params,w_params)
+    elif scheme == 'E':
+        scheme_e(x_i,s_params,w_params)
+    obs = qml.GellMann(0,3)+np.sqrt(3)*qml.GellMann(0,8)
+    if obs_name == 'L1':
+        obs = qml.GellMann(0,1)+qml.GellMann(0,6)
+    if obs_name == 'L2':
+        obs = qml.GellMann(0,2)+qml.GellMann(0,7)
+    return qml.expval(obs)
+
 
 
 def loss(data, labels, model, params):    
@@ -169,7 +194,7 @@ def main():
 
     s_params_size, w_params_size = config['s_params_size'], config['w_params_size']
     params = np.random.normal(size=(s_params_size+w_params_size))#*100
-    init_loss = loss(train_X, train_y, vqc_model, params)
+    
     
     print("Initial parameters:",params)
     loss_over_time = []
@@ -190,13 +215,15 @@ def main():
     plt.title("Loss for "+config['dataset']+" using single qutrit with scheme "+config['encoding_and_rotation_scheme'])
     plt.show()
     
-    # op_state = []
-    # for i in range(len(train_X)):
-    #     x,y,z = (get_state(train_X[i],params))
-    #     op_state.append([y,z])
-    # op_state = np.array(op_state)
-    # plot_classified_data_on_bloch(op_state,train_y)
-    # plt.show()
+    op_state = []
+    for i in range(len(train_X)):
+        x = (get_state(train_X[i],params,'L1'))
+        y = (get_state(train_X[i],params,'L2'))
+        z = (get_state(train_X[i],params,'L3'))
+        op_state.append([y,z])
+    op_state = np.array(op_state)
+    plot_classified_data_on_bloch(op_state,train_y)
+    plt.show()
 if __name__ == "__main__":
     main()
     
