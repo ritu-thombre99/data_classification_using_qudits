@@ -184,7 +184,6 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
     print("Scheme:",encoding_and_rotation_scheme)
     print("Iters:",num_its)    
 
-    config = {}
     config['dataset'] = dataset
     config['encoding_and_rotation_scheme'] = encoding_and_rotation_scheme
     config['s_params_size'], config['w_params_size'] = scheme_config[encoding_and_rotation_scheme]
