@@ -7,8 +7,8 @@ matplotlib.use('Agg')
 from run_qubit import *
 datasets = ['xor','moon','circular']
 rotation_schemes = ['A','B','C','D','E','F']
-# num_itrs = [100,200,300,400,500] # to do
-num_itrs = [50] # to do
+num_itrs = [100,200,300,400,500] # to do
+# num_itrs = [50] # to do
 dataset_size = 300
 
 xor_data = get_xor_data(dataset_size)
