@@ -7,7 +7,8 @@ matplotlib.use('Agg')
 from run_qubit import *
 datasets = ['xor','moon','circular']
 rotation_schemes = ['A','B','C','D','E','F']
-num_itrs = [100,300,500] # to do
+# num_itrs = [100,200,300,400,500] # to do
+num_itrs = [50] # to do
 dataset_size = 300
 
 def delete_figures(folder):
@@ -29,7 +30,12 @@ delete_figures('./logs/')
 f = open("./logs/qubit_run.txt","w")
 
 for dataset in datasets:
-    train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
+    if dataset == 'xor':
+        train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
+    elif dataset == 'circular':
+        train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
+    elif dataset == 'moon':
+        train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
     print("Benchmarking for dataset:",dataset)
     for sch in rotation_schemes:
         for itr in num_itrs:

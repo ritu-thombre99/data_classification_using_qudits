@@ -213,7 +213,7 @@ def run(dataset='circular', encoding_and_rotation_scheme='B',dataset_size=200,nu
 
     # opt = jaxopt.GradientDescent(loss_and_grad, stepsize=0.009, value_and_grad=True)
     # opt_state = opt.init_state(params)
-    opt = optax.sgd(learning_rate=0.003)
+    opt = optax.sgd(learning_rate=0.009)
 
 
     @jax.jit
