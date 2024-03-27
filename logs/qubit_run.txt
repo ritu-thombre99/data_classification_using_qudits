@@ -1,5 +1,181 @@
 Dataset: xor
 Dataset size: 300
 Encoding scheme: A
-Initial parameters: [ 0.41018338 -1.83992033]
+Initial parameters: [ 0.3004492 -1.1133211]
 Number of iterations: 50
+[Array(1.10121674, dtype=float64), Array(1.09402388, dtype=float64), Array(1.08296639, dtype=float64), Array(1.07889608, dtype=float64), Array(1.07067144, dtype=float64), Array(1.06194759, dtype=float64), Array(1.05269333, dtype=float64), Array(1.04287905, dtype=float64), Array(1.03252895, dtype=float64), Array(1.02159233, dtype=float64), Array(1.00265482, dtype=float64), Array(0.99056423, dtype=float64), Array(0.97786376, dtype=float64), Array(0.96085719, dtype=float64), Array(0.95075852, dtype=float64), Array(0.93642231, dtype=float64), Array(0.9252978, dtype=float64), Array(0.91003005, dtype=float64), Array(0.898107, dtype=float64), Array(0.87856843, dtype=float64), Array(0.85887007, dtype=float64), Array(0.84644792, dtype=float64), Array(0.82658543, dtype=float64), Array(0.81438536, dtype=float64), Array(0.79497997, dtype=float64), Array(0.7760365, dtype=float64), Array(0.76128525, dtype=float64), Array(0.74319195, dtype=float64), Array(0.7483093, dtype=float64), Array(0.72100107, dtype=float64), Array(0.71307303, dtype=float64), Array(0.70231845, dtype=float64), Array(0.69608497, dtype=float64), Array(0.68680268, dtype=float64), Array(0.67431881, dtype=float64), Array(0.66612847, dtype=float64), Array(0.66235975, dtype=float64), Array(0.6444749, dtype=float64), Array(0.63089943, dtype=float64), Array(0.62517363, dtype=float64), Array(0.61615488, dtype=float64), Array(0.6112212, dtype=float64), Array(0.6066395, dtype=float64), Array(0.60238465, dtype=float64), Array(0.59103464, dtype=float64), Array(0.5873795, dtype=float64), Array(0.58769568, dtype=float64), Array(0.58085241, dtype=float64), Array(0.57793947, dtype=float64), Array(0.57523863, dtype=float64)]
+Final params:[ 0.0080028  -0.87359067]
+Training accuracy:0.45925925925925926
+Testing accuracy:0.5333333333333333
+------------------------------------
+Dataset: xor
+Dataset size: 300
+Encoding scheme: B
+Initial parameters: [ 0.81869577 -0.31922727 -0.08465061  0.92037516]
+Number of iterations: 50
+[Array(1.05528627, dtype=float64), Array(1.04725669, dtype=float64), Array(1.050444, dtype=float64), Array(1.05365075, dtype=float64), Array(1.0531561, dtype=float64), Array(1.04897374, dtype=float64), Array(1.04853027, dtype=float64), Array(1.04806999, dtype=float64), Array(1.04759219, dtype=float64), Array(1.05083367, dtype=float64), Array(1.0503919, dtype=float64), Array(1.04993331, dtype=float64), Array(1.04945722, dtype=float64), Array(1.04896662, dtype=float64), Array(1.05589193, dtype=float64), Array(1.05177191, dtype=float64), Array(1.05509249, dtype=float64), Array(1.05469599, dtype=float64), Array(1.05799793, dtype=float64), Array(1.05762515, dtype=float64), Array(1.05723693, dtype=float64), Array(1.05683263, dtype=float64), Array(1.06013315, dtype=float64), Array(1.05975575, dtype=float64), Array(1.05936266, dtype=float64), Array(1.05895321, dtype=float64), Array(1.05482948, dtype=float64), Array(1.05076528, dtype=float64), Array(1.05049937, dtype=float64), Array(1.05027663, dtype=float64), Array(1.04636324, dtype=float64), Array(1.04617689, dtype=float64), Array(1.04598238, dtype=float64), Array(1.04577933, dtype=float64), Array(1.04556731, dtype=float64), Array(1.04534591, dtype=float64), Array(1.04141182, dtype=float64), Array(1.0411833, dtype=float64), Array(1.04094494, dtype=float64), Array(1.04069628, dtype=float64), Array(1.04043681, dtype=float64), Array(1.04016597, dtype=float64), Array(1.03988322, dtype=float64), Array(1.04329472, dtype=float64), Array(1.04301528, dtype=float64), Array(1.04272289, dtype=float64), Array(1.04241689, dtype=float64), Array(1.04209657, dtype=float64), Array(1.03807789, dtype=float64), Array(1.03778769, dtype=float64)]
+Final params:[ 0.88714662 -0.31697291 -0.02966297  0.92037516]
+Training accuracy:0.5074074074074074
+Testing accuracy:0.36666666666666664
+------------------------------------
+Dataset: xor
+Dataset size: 300
+Encoding scheme: C
+Initial parameters: [ 0.13779601  0.71738768 -0.41199071]
+Number of iterations: 50
+[Array(0.7565082, dtype=float64), Array(0.7402135, dtype=float64), Array(0.72366532, dtype=float64), Array(0.70700773, dtype=float64), Array(0.7127455, dtype=float64), Array(0.69666174, dtype=float64), Array(0.68464815, dtype=float64), Array(0.67689696, dtype=float64), Array(0.66970871, dtype=float64), Array(0.65203693, dtype=float64), Array(0.65726111, dtype=float64), Array(0.65214477, dtype=float64), Array(0.65713061, dtype=float64), Array(0.41629169, dtype=float64), Array(0.30815413, dtype=float64), Array(0.67450565, dtype=float64), Array(0.42780823, dtype=float64), Array(0.41206746, dtype=float64), Array(0.52132177, dtype=float64), Array(0.39321489, dtype=float64), Array(0.55803109, dtype=float64), Array(0.47047369, dtype=float64), Array(0.50838562, dtype=float64), Array(0.4764338, dtype=float64), Array(0.3859685, dtype=float64), Array(0.53549982, dtype=float64), Array(0.53720227, dtype=float64), Array(0.4819932, dtype=float64), Array(0.38787409, dtype=float64), Array(0.53141917, dtype=float64), Array(0.47601453, dtype=float64), Array(0.40128766, dtype=float64), Array(0.52450625, dtype=float64), Array(0.33716112, dtype=float64), Array(0.624121, dtype=float64), Array(0.4894147, dtype=float64), Array(0.50419789, dtype=float64), Array(0.47682156, dtype=float64), Array(0.36706612, dtype=float64), Array(0.54242858, dtype=float64), Array(0.68295496, dtype=float64), Array(0.31935375, dtype=float64), Array(0.47054324, dtype=float64), Array(0.60800306, dtype=float64), Array(0.47067839, dtype=float64), Array(0.5782287, dtype=float64), Array(0.47112586, dtype=float64), Array(0.61112972, dtype=float64), Array(0.47110368, dtype=float64), Array(0.57410671, dtype=float64)]
+Final params:[ 6.92659553e-04  7.89523774e-01 -4.21374720e-01]
+Training accuracy:0.5333333333333333
+Testing accuracy:0.4666666666666667
+------------------------------------
+Dataset: xor
+Dataset size: 300
+Encoding scheme: D
+Initial parameters: [-0.59378379 -0.34752255 -0.40885422  1.14604207 -1.11347474]
+Number of iterations: 50
+[Array(1.46378879, dtype=float64), Array(1.46514285, dtype=float64), Array(1.46275083, dtype=float64), Array(1.46021794, dtype=float64), Array(1.45753671, dtype=float64), Array(1.45100712, dtype=float64), Array(1.44817207, dtype=float64), Array(1.44517155, dtype=float64), Array(1.441997, dtype=float64), Array(1.43500282, dtype=float64), Array(1.43535489, dtype=float64), Array(1.42818635, dtype=float64), Array(1.42100286, dtype=float64), Array(1.41739728, dtype=float64), Array(1.41358615, dtype=float64), Array(1.41326996, dtype=float64), Array(1.40910554, dtype=float64), Array(1.40843957, dtype=float64), Array(1.4002102, dtype=float64), Array(1.39193935, dtype=float64), Array(1.38721539, dtype=float64), Array(1.37863017, dtype=float64), Array(1.3740446, dtype=float64), Array(1.36952175, dtype=float64), Array(1.35759041, dtype=float64), Array(1.35297739, dtype=float64), Array(1.34450452, dtype=float64), Array(1.33623691, dtype=float64), Array(1.33535632, dtype=float64), Array(1.32700994, dtype=float64), Array(1.31855346, dtype=float64), Array(1.31772135, dtype=float64), Array(1.30931343, dtype=float64), Array(1.3044827, dtype=float64), Array(1.29574723, dtype=float64), Array(1.29067432, dtype=float64), Array(1.28560467, dtype=float64), Array(1.28026986, dtype=float64), Array(1.27840938, dtype=float64), Array(1.27281876, dtype=float64), Array(1.267124, dtype=float64), Array(1.26135972, dtype=float64), Array(1.25539034, dtype=float64), Array(1.2493588, dtype=float64), Array(1.24306146, dtype=float64), Array(1.24025161, dtype=float64), Array(1.24125249, dtype=float64), Array(1.23175798, dtype=float64), Array(1.2259271, dtype=float64), Array(1.22364208, dtype=float64)]
+Final params:[-0.60669606 -0.41704505 -0.10601056  1.14604207 -1.11347474]
+Training accuracy:0.48518518518518516
+Testing accuracy:0.5666666666666667
+------------------------------------
+Dataset: xor
+Dataset size: 300
+Encoding scheme: E
+Initial parameters: [ 0.31317459  0.2414255  -0.40353254 -1.52431506]
+Number of iterations: 50
+[Array(1.24631064, dtype=float64), Array(1.23331127, dtype=float64), Array(1.22142397, dtype=float64), Array(1.21391657, dtype=float64), Array(1.19956345, dtype=float64), Array(1.2003861, dtype=float64), Array(1.19784542, dtype=float64), Array(1.19168354, dtype=float64), Array(1.1854482, dtype=float64), Array(1.17912033, dtype=float64), Array(1.17267943, dtype=float64), Array(1.16244872, dtype=float64), Array(1.15219328, dtype=float64), Array(1.1455286, dtype=float64), Array(1.13867347, dtype=float64), Array(1.13163847, dtype=float64), Array(1.12428051, dtype=float64), Array(1.1165648, dtype=float64), Array(1.11218011, dtype=float64), Array(1.10369737, dtype=float64), Array(1.09483309, dtype=float64), Array(1.08541648, dtype=float64), Array(1.07170471, dtype=float64), Array(1.06110805, dtype=float64), Array(1.04981997, dtype=float64), Array(1.03780068, dtype=float64), Array(1.02501409, dtype=float64), Array(1.01142936, dtype=float64), Array(0.99702398, dtype=float64), Array(0.98182786, dtype=float64), Array(0.95841196, dtype=float64), Array(0.93428276, dtype=float64), Array(0.9132186, dtype=float64), Array(0.89509165, dtype=float64), Array(0.87621933, dtype=float64), Array(0.85666567, dtype=float64), Array(0.82911487, dtype=float64), Array(0.80856626, dtype=float64), Array(0.78398893, dtype=float64), Array(0.76293131, dtype=float64), Array(0.74169053, dtype=float64), Array(0.71669058, dtype=float64), Array(0.69916786, dtype=float64), Array(0.68185518, dtype=float64), Array(0.66124333, dtype=float64), Array(0.63370655, dtype=float64), Array(0.61781733, dtype=float64), Array(0.59883057, dtype=float64), Array(0.57684023, dtype=float64), Array(0.56293339, dtype=float64)]
+Final params:[ 0.01118611  0.39348854 -0.77127942 -1.52431506]
+Training accuracy:0.4777777777777778
+Testing accuracy:0.4666666666666667
+------------------------------------
+Dataset: xor
+Dataset size: 300
+Encoding scheme: F
+Initial parameters: [-0.22923881 -0.00306283  0.2700874  -0.94509595 -0.09667496 -1.08239088]
+Number of iterations: 50
+[Array(1.56379704, dtype=float64), Array(1.51339678, dtype=float64), Array(1.47905262, dtype=float64), Array(1.4422542, dtype=float64), Array(1.41644201, dtype=float64), Array(1.39343766, dtype=float64), Array(1.37528194, dtype=float64), Array(1.34732286, dtype=float64), Array(1.32599594, dtype=float64), Array(1.31315338, dtype=float64), Array(1.30105402, dtype=float64), Array(1.28636402, dtype=float64), Array(1.26572234, dtype=float64), Array(1.26145183, dtype=float64), Array(1.25076768, dtype=float64), Array(1.24425569, dtype=float64), Array(1.23812315, dtype=float64), Array(1.23576844, dtype=float64), Array(1.23040679, dtype=float64), Array(1.22501948, dtype=float64), Array(1.21592765, dtype=float64), Array(1.20694009, dtype=float64), Array(1.20947751, dtype=float64), Array(1.20513969, dtype=float64), Array(1.20087139, dtype=float64), Array(1.1927565, dtype=float64), Array(1.18827161, dtype=float64), Array(1.18359462, dtype=float64), Array(1.17133797, dtype=float64), Array(1.17015118, dtype=float64), Array(1.16506124, dtype=float64), Array(1.14863388, dtype=float64), Array(1.13954478, dtype=float64), Array(1.1301497, dtype=float64), Array(1.12413897, dtype=float64), Array(1.12137983, dtype=float64), Array(1.1108036, dtype=float64), Array(1.10339357, dtype=float64), Array(1.09533072, dtype=float64), Array(1.08288758, dtype=float64), Array(1.06972985, dtype=float64), Array(1.05950261, dtype=float64), Array(1.04834226, dtype=float64), Array(1.03247409, dtype=float64), Array(1.01928185, dtype=float64), Array(1.00867258, dtype=float64), Array(0.99318176, dtype=float64), Array(0.9764174, dtype=float64), Array(0.9509603, dtype=float64), Array(0.92801755, dtype=float64)]
+Final params:[-0.23267869 -0.04856468  0.65695047 -0.94509595 -0.09667496 -1.08239088]
+Training accuracy:0.5333333333333333
+Testing accuracy:0.4666666666666667
+------------------------------------
+Dataset: moon
+Dataset size: 300
+Encoding scheme: A
+Initial parameters: [-0.74333152 -0.01050851]
+Number of iterations: 50
+[Array(1.37239974, dtype=float64), Array(1.38312799, dtype=float64), Array(1.38623398, dtype=float64), Array(1.38947077, dtype=float64), Array(1.38157893, dtype=float64), Array(1.37395824, dtype=float64), Array(1.37380006, dtype=float64), Array(1.38100002, dtype=float64), Array(1.38056473, dtype=float64), Array(1.3800813, dtype=float64), Array(1.38319921, dtype=float64), Array(1.38599286, dtype=float64), Array(1.38873496, dtype=float64), Array(1.38763128, dtype=float64), Array(1.38627563, dtype=float64), Array(1.38848574, dtype=float64), Array(1.39045494, dtype=float64), Array(1.38485668, dtype=float64), Array(1.38254063, dtype=float64), Array(1.38355946, dtype=float64), Array(1.38053563, dtype=float64), Array(1.37359299, dtype=float64), Array(1.36618691, dtype=float64), Array(1.35855017, dtype=float64), Array(1.35799913, dtype=float64), Array(1.3612342, dtype=float64), Array(1.35685523, dtype=float64), Array(1.35580544, dtype=float64), Array(1.34323533, dtype=float64), Array(1.34201811, dtype=float64), Array(1.34777228, dtype=float64), Array(1.34592754, dtype=float64), Array(1.34019284, dtype=float64), Array(1.33418492, dtype=float64), Array(1.33138485, dtype=float64), Array(1.32456556, dtype=float64), Array(1.31352142, dtype=float64), Array(1.29844966, dtype=float64), Array(1.29021796, dtype=float64), Array(1.28492772, dtype=float64), Array(1.27515027, dtype=float64), Array(1.26125981, dtype=float64), Array(1.24312011, dtype=float64), Array(1.23206588, dtype=float64), Array(1.21295032, dtype=float64), Array(1.19744938, dtype=float64), Array(1.18119422, dtype=float64), Array(1.17496634, dtype=float64), Array(1.16397067, dtype=float64), Array(1.13708456, dtype=float64)]
+Final params:[-1.05441752  0.10946581]
+Training accuracy:0.44814814814814813
+Testing accuracy:0.6
+------------------------------------
+Dataset: moon
+Dataset size: 300
+Encoding scheme: B
+Initial parameters: [ 0.35153514 -1.65985959  0.60944683 -1.06276757]
+Number of iterations: 50
+[Array(0.60454488, dtype=float64), Array(0.56797969, dtype=float64), Array(0.51989826, dtype=float64), Array(0.46060317, dtype=float64), Array(0.44491904, dtype=float64), Array(0.4334723, dtype=float64), Array(0.41151981, dtype=float64), Array(0.40152533, dtype=float64), Array(0.38086774, dtype=float64), Array(0.36812079, dtype=float64), Array(0.35564897, dtype=float64), Array(0.33988483, dtype=float64), Array(0.3355614, dtype=float64), Array(0.32029139, dtype=float64), Array(0.31652592, dtype=float64), Array(0.31276684, dtype=float64), Array(0.30167439, dtype=float64), Array(0.29448539, dtype=float64), Array(0.28752484, dtype=float64), Array(0.28454264, dtype=float64), Array(0.27789756, dtype=float64), Array(0.27137828, dtype=float64), Array(0.26495431, dtype=float64), Array(0.26245737, dtype=float64), Array(0.2636757, dtype=float64), Array(0.25755841, dtype=float64), Array(0.25520246, dtype=float64), Array(0.24913703, dtype=float64), Array(0.24310036, dtype=float64), Array(0.24083562, dtype=float64), Array(0.23856218, dtype=float64), Array(0.23639537, dtype=float64), Array(0.23051748, dtype=float64), Array(0.23213074, dtype=float64), Array(0.22643736, dtype=float64), Array(0.23562803, dtype=float64), Array(0.23764157, dtype=float64), Array(0.23614596, dtype=float64), Array(0.22355752, dtype=float64), Array(0.22597788, dtype=float64), Array(0.2173986, dtype=float64), Array(0.21644445, dtype=float64), Array(0.21181912, dtype=float64), Array(0.21841577, dtype=float64), Array(0.21769308, dtype=float64), Array(0.21327959, dtype=float64), Array(0.21260605, dtype=float64), Array(0.21192907, dtype=float64), Array(0.2112489, dtype=float64), Array(0.21800039, dtype=float64)]
+Final params:[ 0.30537527 -1.64623085  0.84720806 -1.06276757]
+Training accuracy:0.825925925925926
+Testing accuracy:0.7666666666666667
+------------------------------------
+Dataset: moon
+Dataset size: 300
+Encoding scheme: C
+Initial parameters: [ 0.36404627 -0.57285653  0.53938141]
+Number of iterations: 50
+[Array(0.1668084, dtype=float64), Array(0.16955515, dtype=float64), Array(0.16496269, dtype=float64), Array(0.16413339, dtype=float64), Array(0.16331038, dtype=float64), Array(0.16621498, dtype=float64), Array(0.16544304, dtype=float64), Array(0.16467708, dtype=float64), Array(0.1639171, dtype=float64), Array(0.16316308, dtype=float64), Array(0.16241502, dtype=float64), Array(0.1616729, dtype=float64), Array(0.16093671, dtype=float64), Array(0.16391865, dtype=float64), Array(0.16323253, dtype=float64), Array(0.16255202, dtype=float64), Array(0.1618771, dtype=float64), Array(0.16120775, dtype=float64), Array(0.16054395, dtype=float64), Array(0.15988569, dtype=float64), Array(0.15923294, dtype=float64), Array(0.15858569, dtype=float64), Array(0.16165239, dtype=float64), Array(0.15737512, dtype=float64), Array(0.16064089, dtype=float64), Array(0.16024575, dtype=float64), Array(0.15987497, dtype=float64), Array(0.15954761, dtype=float64), Array(0.15922306, dtype=float64), Array(0.1589013, dtype=float64), Array(0.15858232, dtype=float64), Array(0.15826611, dtype=float64), Array(0.15795263, dtype=float64), Array(0.16135887, dtype=float64), Array(0.1573952, dtype=float64), Array(0.15715226, dtype=float64), Array(0.1569114, dtype=float64), Array(0.15667262, dtype=float64), Array(0.15643589, dtype=float64), Array(0.1562012, dtype=float64), Array(0.15596853, dtype=float64), Array(0.15204104, dtype=float64), Array(0.1518383, dtype=float64), Array(0.14793807, dtype=float64), Array(0.15146982, dtype=float64), Array(0.15130951, dtype=float64), Array(0.15485615, dtype=float64), Array(0.15470935, dtype=float64), Array(0.1545636, dtype=float64), Array(0.15441887, dtype=float64)]
+Final params:[ 0.34186265 -0.57586144  0.63380841]
+Training accuracy:0.8740740740740741
+Testing accuracy:0.7333333333333333
+------------------------------------
+Dataset: moon
+Dataset size: 300
+Encoding scheme: D
+Initial parameters: [ 1.53999388e-01 -8.22416501e-04  4.63151480e-02 -6.75903570e-01
+ -1.90543228e+00]
+Number of iterations: 50
+[Array(1.83908728, dtype=float64), Array(1.81184496, dtype=float64), Array(1.77946466, dtype=float64), Array(1.74130303, dtype=float64), Array(1.69677998, dtype=float64), Array(1.64544657, dtype=float64), Array(1.58706459, dtype=float64), Array(1.52168858, dtype=float64), Array(1.44973562, dtype=float64), Array(1.37202465, dtype=float64), Array(1.28976804, dtype=float64), Array(1.20826653, dtype=float64), Array(1.143322, dtype=float64), Array(1.08521153, dtype=float64), Array(1.03941438, dtype=float64), Array(0.99408475, dtype=float64), Array(0.95839786, dtype=float64), Array(0.90960589, dtype=float64), Array(0.82530666, dtype=float64), Array(0.74486117, dtype=float64), Array(0.68726444, dtype=float64), Array(0.64596117, dtype=float64), Array(0.59672193, dtype=float64), Array(0.56860248, dtype=float64), Array(0.54221892, dtype=float64), Array(0.5169633, dtype=float64), Array(0.49632403, dtype=float64), Array(0.47997809, dtype=float64), Array(0.46408372, dtype=float64), Array(0.44492788, dtype=float64), Array(0.43743169, dtype=float64), Array(0.42276698, dtype=float64), Array(0.41945056, dtype=float64), Array(0.41616136, dtype=float64), Array(0.39819763, dtype=float64), Array(0.39160522, dtype=float64), Array(0.38142975, dtype=float64), Array(0.37880257, dtype=float64), Array(0.37620425, dtype=float64), Array(0.37363507, dtype=float64), Array(0.367412, dtype=float64), Array(0.36129832, dtype=float64), Array(0.35897375, dtype=float64), Array(0.34929428, dtype=float64), Array(0.34346708, dtype=float64), Array(0.33774187, dtype=float64), Array(0.33577377, dtype=float64), Array(0.33382124, dtype=float64), Array(0.33188466, dtype=float64), Array(0.32996435, dtype=float64)]
+Final params:[ 0.45341535 -0.10864338  0.50688588 -0.67590357 -1.90543228]
+Training accuracy:0.7703703703703704
+Testing accuracy:0.8
+------------------------------------
+Dataset: moon
+Dataset size: 300
+Encoding scheme: E
+Initial parameters: [-0.27240322 -0.48067994 -1.02956618  0.33922464]
+Number of iterations: 50
+[Array(0.2564373, dtype=float64), Array(0.25099453, dtype=float64), Array(0.25307311, dtype=float64), Array(0.24782113, dtype=float64), Array(0.25008886, dtype=float64), Array(0.24500907, dtype=float64), Array(0.24370481, dtype=float64), Array(0.24242703, dtype=float64), Array(0.24488086, dtype=float64), Array(0.23629181, dtype=float64), Array(0.23520349, dtype=float64), Array(0.23413615, dtype=float64), Array(0.23308941, dtype=float64), Array(0.23206286, dtype=float64), Array(0.23105612, dtype=float64), Array(0.2300688, dtype=float64), Array(0.22910053, dtype=float64), Array(0.22815092, dtype=float64), Array(0.22352617, dtype=float64), Array(0.22264943, dtype=float64), Array(0.2217889, dtype=float64), Array(0.22094425, dtype=float64), Array(0.22011518, dtype=float64), Array(0.21931824, dtype=float64), Array(0.21856348, dtype=float64), Array(0.21412939, dtype=float64), Array(0.2134305, dtype=float64), Array(0.21274347, dtype=float64), Array(0.21206808, dtype=float64), Array(0.2114041, dtype=float64), Array(0.21075132, dtype=float64), Array(0.21010952, dtype=float64), Array(0.20947848, dtype=float64), Array(0.20885799, dtype=float64), Array(0.20455302, dtype=float64), Array(0.20398028, dtype=float64), Array(0.20341653, dtype=float64), Array(0.20286161, dtype=float64), Array(0.20602447, dtype=float64), Array(0.20549764, dtype=float64), Array(0.20497891, dtype=float64), Array(0.20076608, dtype=float64), Array(0.19658533, dtype=float64), Array(0.19613083, dtype=float64), Array(0.1956824, dtype=float64), Array(0.19523992, dtype=float64), Array(0.19110165, dtype=float64), Array(0.19068731, dtype=float64), Array(0.19027805, dtype=float64), Array(0.18987378, dtype=float64)]
+Final params:[-0.25337099 -0.58231492 -0.9467115   0.33922464]
+Training accuracy:0.8592592592592593
+Testing accuracy:0.7666666666666667
+------------------------------------
+Dataset: moon
+Dataset size: 300
+Encoding scheme: F
+Initial parameters: [ 0.68082352  2.98160575  0.33666467 -0.55516758  0.28595506  0.67474818]
+Number of iterations: 50
+[Array(0.48509699, dtype=float64), Array(0.48226223, dtype=float64), Array(0.47571306, dtype=float64), Array(0.46908349, dtype=float64), Array(0.46613378, dtype=float64), Array(0.4595098, dtype=float64), Array(0.4528706, dtype=float64), Array(0.44623612, dtype=float64), Array(0.43962588, dtype=float64), Array(0.42587441, dtype=float64), Array(0.4127736, dtype=float64), Array(0.39659934, dtype=float64), Array(0.39225412, dtype=float64), Array(0.38794004, dtype=float64), Array(0.38366429, dtype=float64), Array(0.37580688, dtype=float64), Array(0.37184293, dtype=float64), Array(0.36792783, dtype=float64), Array(0.36406629, dtype=float64), Array(0.3565761, dtype=float64), Array(0.35304128, dtype=float64), Array(0.34223038, dtype=float64), Array(0.33185462, dtype=float64), Array(0.32920895, dtype=float64), Array(0.32659687, dtype=float64), Array(0.32401963, dtype=float64), Array(0.32147833, dtype=float64), Array(0.31897389, dtype=float64), Array(0.31650709, dtype=float64), Array(0.31407855, dtype=float64), Array(0.31168878, dtype=float64), Array(0.30937486, dtype=float64), Array(0.30723594, dtype=float64), Array(0.2979678, dtype=float64), Array(0.29625157, dtype=float64), Array(0.29455226, dtype=float64), Array(0.2928701, dtype=float64), Array(0.2875332, dtype=float64), Array(0.28597587, dtype=float64), Array(0.28815365, dtype=float64), Array(0.28667257, dtype=float64), Array(0.28520617, dtype=float64), Array(0.28375458, dtype=float64), Array(0.28603142, dtype=float64), Array(0.28468152, dtype=float64), Array(0.28339964, dtype=float64), Array(0.28212959, dtype=float64), Array(0.28087145, dtype=float64), Array(0.27962532, dtype=float64), Array(0.27839129, dtype=float64)]
+Final params:[ 0.49278655  2.89075071  0.49037747 -0.55516758  0.28595506  0.67474818]
+Training accuracy:0.8111111111111111
+Testing accuracy:0.8
+------------------------------------
+Dataset: circular
+Dataset size: 300
+Encoding scheme: A
+Initial parameters: [ 0.70938736 -2.07549783]
+Number of iterations: 50
+[Array(0.89985611, dtype=float64), Array(0.89879651, dtype=float64), Array(0.89775079, dtype=float64), Array(0.89671896, dtype=float64), Array(0.89201888, dtype=float64), Array(0.8910758, dtype=float64), Array(0.88646198, dtype=float64), Array(0.88560329, dtype=float64), Array(0.88848183, dtype=float64), Array(0.88397247, dtype=float64), Array(0.88323123, dtype=float64), Array(0.88250096, dtype=float64), Array(0.88178159, dtype=float64), Array(0.88107306, dtype=float64), Array(0.8803753, dtype=float64), Array(0.87968824, dtype=float64), Array(0.8790118, dtype=float64), Array(0.87834589, dtype=float64), Array(0.87399004, dtype=float64), Array(0.87339886, dtype=float64), Array(0.87281701, dtype=float64), Array(0.87224438, dtype=float64), Array(0.87168085, dtype=float64), Array(0.8711263, dtype=float64), Array(0.8705806, dtype=float64), Array(0.87004364, dtype=float64), Array(0.86951528, dtype=float64), Array(0.86899537, dtype=float64), Array(0.86848377, dtype=float64), Array(0.86798033, dtype=float64), Array(0.86748488, dtype=float64), Array(0.87070116, dtype=float64), Array(0.8702419, dtype=float64), Array(0.8697902, dtype=float64), Array(0.8693459, dtype=float64), Array(0.86890886, dtype=float64), Array(0.86847891, dtype=float64), Array(0.86805589, dtype=float64), Array(0.86763961, dtype=float64), Array(0.8672299, dtype=float64), Array(0.86682658, dtype=float64), Array(0.86642944, dtype=float64), Array(0.86234475, dtype=float64), Array(0.86200032, dtype=float64), Array(0.8616604, dtype=float64), Array(0.86132477, dtype=float64), Array(0.85728947, dtype=float64), Array(0.86070363, dtype=float64), Array(0.86043818, dtype=float64), Array(0.86017486, dtype=float64)]
+Final params:[ 0.63125192 -2.04360648]
+Training accuracy:0.6518518518518519
+Testing accuracy:0.5666666666666667
+------------------------------------
+Dataset: circular
+Dataset size: 300
+Encoding scheme: B
+Initial parameters: [-1.26321347  0.40637744 -1.12147062 -0.11756051]
+Number of iterations: 50
+[Array(1.62991968, dtype=float64), Array(1.62547041, dtype=float64), Array(1.62096095, dtype=float64), Array(1.61639332, dtype=float64), Array(1.60811903, dtype=float64), Array(1.60354938, dtype=float64), Array(1.59527576, dtype=float64), Array(1.58702859, dtype=float64), Array(1.58253826, dtype=float64), Array(1.57799956, dtype=float64), Array(1.56971372, dtype=float64), Array(1.5615014, dtype=float64), Array(1.55328607, dtype=float64), Array(1.54511321, dtype=float64), Array(1.54440413, dtype=float64), Array(1.53997457, dtype=float64), Array(1.53549363, dtype=float64), Array(1.53095991, dtype=float64), Array(1.52271843, dtype=float64), Array(1.51452844, dtype=float64), Array(1.50634309, dtype=float64), Array(1.50187442, dtype=float64), Array(1.49733954, dtype=float64), Array(1.49273459, dtype=float64), Array(1.47700724, dtype=float64), Array(1.46885412, dtype=float64), Array(1.46440387, dtype=float64), Array(1.45986136, dtype=float64), Array(1.45522014, dtype=float64), Array(1.45047315, dtype=float64), Array(1.44561268, dtype=float64), Array(1.44063041, dtype=float64), Array(1.43187083, dtype=float64), Array(1.42682372, dtype=float64), Array(1.4217783, dtype=float64), Array(1.41658726, dtype=float64), Array(1.41123995, dtype=float64), Array(1.40572499, dtype=float64), Array(1.3963552, dtype=float64), Array(1.39061294, dtype=float64), Array(1.38112321, dtype=float64), Array(1.37154087, dtype=float64), Array(1.36547707, dtype=float64), Array(1.35918288, dtype=float64), Array(1.34169097, dtype=float64), Array(1.33174149, dtype=float64), Array(1.32533327, dtype=float64), Array(1.31500329, dtype=float64), Array(1.30447712, dtype=float64), Array(1.29750993, dtype=float64)]
+Final params:[-1.32919046  0.72472194 -1.14745882 -0.11756051]
+Training accuracy:0.45925925925925926
+Testing accuracy:0.3
+------------------------------------
+Dataset: circular
+Dataset size: 300
+Encoding scheme: C
+Initial parameters: [-0.14988573  0.26162227 -0.50406833]
+Number of iterations: 50
+[Array(1.0255723, dtype=float64), Array(0.98698392, dtype=float64), Array(0.94966519, dtype=float64), Array(0.91364426, dtype=float64), Array(0.86451298, dtype=float64), Array(0.81131271, dtype=float64), Array(0.7505758, dtype=float64), Array(0.71473353, dtype=float64), Array(0.67668123, dtype=float64), Array(0.63277972, dtype=float64), Array(0.60139476, dtype=float64), Array(0.57831267, dtype=float64), Array(0.55989452, dtype=float64), Array(0.53844388, dtype=float64), Array(0.51378002, dtype=float64), Array(0.49714624, dtype=float64), Array(0.47412048, dtype=float64), Array(0.46761013, dtype=float64), Array(0.45433725, dtype=float64), Array(0.46059716, dtype=float64), Array(0.4752604, dtype=float64), Array(0.48369214, dtype=float64), Array(0.4892582, dtype=float64), Array(0.49543646, dtype=float64), Array(0.50206983, dtype=float64), Array(0.48704776, dtype=float64), Array(0.50201205, dtype=float64), Array(0.49134922, dtype=float64), Array(0.49197876, dtype=float64), Array(0.48533969, dtype=float64), Array(0.48253773, dtype=float64), Array(0.52026075, dtype=float64), Array(0.47930564, dtype=float64), Array(0.63475675, dtype=float64), Array(0.40963097, dtype=float64), Array(0.51659178, dtype=float64), Array(0.50694204, dtype=float64), Array(0.51598503, dtype=float64), Array(0.50746697, dtype=float64), Array(0.53765627, dtype=float64), Array(0.50698483, dtype=float64), Array(0.51959474, dtype=float64), Array(0.50734285, dtype=float64), Array(0.53032409, dtype=float64), Array(0.50719375, dtype=float64), Array(0.53044654, dtype=float64), Array(0.5070511, dtype=float64), Array(0.51945787, dtype=float64), Array(0.50740382, dtype=float64), Array(0.53761456, dtype=float64)]
+Final params:[-0.00294378  0.3233255  -0.77626376]
+Training accuracy:0.5074074074074074
+Testing accuracy:0.43333333333333335
+------------------------------------
+Dataset: circular
+Dataset size: 300
+Encoding scheme: D
+Initial parameters: [ 0.51232269 -0.54319326  0.20002723 -0.44433256  1.49006565]
+Number of iterations: 50
+[Array(0.75475099, dtype=float64), Array(0.75267573, dtype=float64), Array(0.7505954, dtype=float64), Array(0.74481543, dtype=float64), Array(0.73913208, dtype=float64), Array(0.7371629, dtype=float64), Array(0.73524295, dtype=float64), Array(0.73717036, dtype=float64), Array(0.73919059, dtype=float64), Array(0.7375362, dtype=float64), Array(0.73959129, dtype=float64), Array(0.74914097, dtype=float64), Array(0.74772617, dtype=float64), Array(0.74628549, dtype=float64), Array(0.74113398, dtype=float64), Array(0.7360402, dtype=float64), Array(0.73843254, dtype=float64), Array(0.74086498, dtype=float64), Array(0.73965378, dtype=float64), Array(0.74225913, dtype=float64), Array(0.74117163, dtype=float64), Array(0.7400502, dtype=float64), Array(0.73889261, dtype=float64), Array(0.74141439, dtype=float64), Array(0.74023394, dtype=float64), Array(0.74273648, dtype=float64), Array(0.75268718, dtype=float64), Array(0.75161436, dtype=float64), Array(0.75049742, dtype=float64), Array(0.7567752, dtype=float64), Array(0.75568121, dtype=float64), Array(0.75463788, dtype=float64), Array(0.75354607, dtype=float64), Array(0.7524029, dtype=float64), Array(0.75124669, dtype=float64), Array(0.75382876, dtype=float64), Array(0.76385341, dtype=float64), Array(0.75909708, dtype=float64), Array(0.75804996, dtype=float64), Array(0.76065732, dtype=float64), Array(0.75950581, dtype=float64), Array(0.75828753, dtype=float64), Array(0.75699828, dtype=float64), Array(0.75563365, dtype=float64), Array(0.76161599, dtype=float64), Array(0.76015064, dtype=float64), Array(0.76230439, dtype=float64), Array(0.76072434, dtype=float64), Array(0.76276568, dtype=float64), Array(0.76104932, dtype=float64)]
+Final params:[ 0.4719334  -0.68952606  0.14143234 -0.44433256  1.49006565]
+Training accuracy:0.6148148148148148
+Testing accuracy:0.5
+------------------------------------
+Dataset: circular
+Dataset size: 300
+Encoding scheme: E
+Initial parameters: [-0.57825898  0.64480917  0.89360041 -0.7089298 ]
+Number of iterations: 50
+[Array(1.15747806, dtype=float64), Array(1.1486596, dtype=float64), Array(1.1396543, dtype=float64), Array(1.13046291, dtype=float64), Array(1.12108677, dtype=float64), Array(1.10782577, dtype=float64), Array(1.09810375, dtype=float64), Array(1.08820305, dtype=float64), Array(1.07812742, dtype=float64), Array(1.06788131, dtype=float64), Array(1.05746979, dtype=float64), Array(1.05060674, dtype=float64), Array(1.03989422, dtype=float64), Array(1.02903562, dtype=float64), Array(1.01803853, dtype=float64), Array(1.00691114, dtype=float64), Array(0.99566221, dtype=float64), Array(0.98430105, dtype=float64), Array(0.97283746, dtype=float64), Array(0.96128169, dtype=float64), Array(0.94964444, dtype=float64), Array(0.93793673, dtype=float64), Array(0.92616994, dtype=float64), Array(0.91435566, dtype=float64), Array(0.90250571, dtype=float64), Array(0.89063204, dtype=float64), Array(0.87874667, dtype=float64), Array(0.87056916, dtype=float64), Array(0.85871043, dtype=float64), Array(0.84687579, dtype=float64), Array(0.83507695, dtype=float64), Array(0.82332541, dtype=float64), Array(0.8116324, dtype=float64), Array(0.80000881, dtype=float64), Array(0.78846519, dtype=float64), Array(0.77701168, dtype=float64), Array(0.76567354, dtype=float64), Array(0.750769, dtype=float64), Array(0.74341326, dtype=float64), Array(0.73989771, dtype=float64), Array(0.72913877, dtype=float64), Array(0.72592474, dtype=float64), Array(0.7080969, dtype=float64), Array(0.70158814, dtype=float64), Array(0.69153745, dtype=float64), Array(0.68534896, dtype=float64), Array(0.67563161, dtype=float64), Array(0.66978505, dtype=float64), Array(0.66782812, dtype=float64), Array(0.65498612, dtype=float64)]
+Final params:[-0.09126436  0.6667318   0.83646726 -0.7089298 ]
+Training accuracy:0.44074074074074077
+Testing accuracy:0.5333333333333333
+------------------------------------
+Dataset: circular
+Dataset size: 300
+Encoding scheme: F
+Initial parameters: [-1.84640458 -1.76897663  0.86950642  0.26895256 -0.61480897  0.29102413]
+Number of iterations: 50
+[Array(1.21266174, dtype=float64), Array(1.20506627, dtype=float64), Array(1.19371322, dtype=float64), Array(1.18226216, dtype=float64), Array(1.17822374, dtype=float64), Array(1.17026702, dtype=float64), Array(1.16220326, dtype=float64), Array(1.1503014, dtype=float64), Array(1.14574322, dtype=float64), Array(1.14090807, dtype=float64), Array(1.13578277, dtype=float64), Array(1.13410554, dtype=float64), Array(1.1248163, dtype=float64), Array(1.11539825, dtype=float64), Array(1.10944189, dtype=float64), Array(1.10315212, dtype=float64), Array(1.09657176, dtype=float64), Array(1.08627013, dtype=float64), Array(1.07946552, dtype=float64), Array(1.06510553, dtype=float64), Array(1.05109775, dtype=float64), Array(1.04447084, dtype=float64), Array(1.04128114, dtype=float64), Array(1.03066169, dtype=float64), Array(1.02358, dtype=float64), Array(1.016172, dtype=float64), Array(1.00109286, dtype=float64), Array(0.99711285, dtype=float64), Array(0.9857915, dtype=float64), Array(0.97470516, dtype=float64), Array(0.96704218, dtype=float64), Array(0.9554675, dtype=float64), Array(0.95117683, dtype=float64), Array(0.94668505, dtype=float64), Array(0.93107217, dtype=float64), Array(0.91919999, dtype=float64), Array(0.90732004, dtype=float64), Array(0.88808868, dtype=float64), Array(0.88025323, dtype=float64), Array(0.87224483, dtype=float64), Array(0.86414929, dtype=float64), Array(0.85951962, dtype=float64), Array(0.84738581, dtype=float64), Array(0.83880527, dtype=float64), Array(0.82628716, dtype=float64), Array(0.8211384, dtype=float64), Array(0.80133158, dtype=float64), Array(0.78907459, dtype=float64), Array(0.77690559, dtype=float64), Array(0.76847087, dtype=float64)]
+Final params:[-1.66291607 -1.72323532  1.21113568  0.26895256 -0.61480897  0.29102413]
+Training accuracy:0.6518518518518519
+Testing accuracy:0.6333333333333333
+------------------------------------
