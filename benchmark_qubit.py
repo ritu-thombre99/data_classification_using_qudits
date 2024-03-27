@@ -85,7 +85,7 @@ for l in lines:
         num_its = int(l[4][len('Number of iterations: '):])
         row['Iterations'] = num_its
 
-        loss = l[5].replace('dtype=float64)','').replace('Array(','').replace('[','').replace(']','')
+        loss = l[5].replace('tensor(','').replace('requires_grad=True)','').replace('[','').replace(']','')
         loss = loss.split(", ")
         while '' in loss:
             loss.remove('')
