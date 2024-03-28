@@ -18,7 +18,8 @@ scheme_config['C'] = [4,4]
 scheme_config['D1'] = [1,7]
 scheme_config['D2'] = [4,4]
 scheme_config['D3'] = [8,1]
-scheme_config['E'] = [1,4]
+scheme_config['custom_ternary'] = [1,4]
+scheme_config['custom_binary'] = [6,3]
 
 # default scheme: B
 config = {}
@@ -29,8 +30,8 @@ config['w_params_size'] = 4
 config["binary_classifier"] = True
 
 dev = qml.device("default.qutrit", wires=1)
-@qml.qnode(dev)
-def vqc_model(x_i, params):
+@qml.qnode(dev) 
+def vqc_model(x_i, params): # change return value qml.probs
     s_params,w_params = params[:config['s_params_size']], params[config['s_params_size']:]
     scheme = config['encoding_and_rotation_scheme']
     if scheme == 'A':
@@ -45,10 +46,15 @@ def vqc_model(x_i, params):
         scheme_d2(x_i,s_params,w_params)
     elif scheme == 'D3':
         scheme_d3(x_i,s_params,w_params)
-    elif scheme == 'E':
-        scheme_e(x_i,s_params,w_params)
-    obs = qml.GellMann(0,3)+np.sqrt(3)*qml.GellMann(0,8)
-    return qml.expval(obs)
+    elif scheme == 'custom_ternary':
+        custom_ternary(x_i,s_params,w_params)
+    elif scheme == 'custom_binary':
+        custom_binary(x_i,s_params,w_params)
+    if config["binary_classifier"]  == True:
+        obs = qml.GellMann(0,3)+np.sqrt(3)*qml.GellMann(0,8)
+        return qml.expval(obs)
+    else:
+        return qml.probs()
 
 @qml.qnode(dev)
 def get_state(x_i, params,obs_name):
@@ -66,8 +72,10 @@ def get_state(x_i, params,obs_name):
         scheme_d2(x_i,s_params,w_params)
     elif scheme == 'D3':
         scheme_d3(x_i,s_params,w_params)
-    elif scheme == 'E':
-        scheme_e(x_i,s_params,w_params)
+    elif scheme == 'custom_ternary':
+        custom_ternary(x_i,s_params,w_params)
+    elif scheme == 'custom_binary':
+        custom_binary(x_i,s_params,w_params)
     obs = qml.GellMann(0,3)+np.sqrt(3)*qml.GellMann(0,8)
     if obs_name == 'L1':
         obs = qml.GellMann(0,1)+qml.GellMann(0,6)
@@ -87,14 +95,22 @@ def loss(data, labels, model, params):
             if (model_output<0 and true_label>0) or (model_output>0 and true_label<0):
                 loss_sum.append((model_output - true_label) ** 2)
         else:
-            model_class = 0
-            if -2 <= model_output and model_output < (-2/3):
-                model_class = -2
-            elif (2/3) <= model_output and model_output <= 2:
-                model_class = 2
+            loss = 0
+            if true_label == -2:
+                loss = -1*np.log(model_output[0])
+            elif true_label == 0:
+                loss = -1*np.log(model_output[1])
+            elif true_label == 2:
+                loss = -1*np.log(model_output[2])
+            loss_sum.append(loss)
+            # if -2 <= model_output and model_output < (-2/3):
+            #     model_class = -2
+            # elif (2/3) <= model_output and model_output <= 2:
+            #     model_class = 2
 
-            if model_class != true_label:
-                loss_sum.append((model_output - true_label) ** 2)
+            # if model_class != true_label:
+            #     loss_sum.append((model_output - true_label) ** 2)
+            
 
     return sum(loss_sum)/len(data)
 
@@ -105,11 +121,18 @@ def make_prediction(model, data_point, params):
             return -1
         return 1
     else:
-        if -2 <= model_output and model_output < (-2/3):
+        pred = np.argmax(model_output)
+        if pred == 0:
             return -2
-        elif (2/3) <= model_output and model_output <= 2:
+        if pred == 1:
+            return 0
+        if pred == 2:
             return 2
-        return 0
+        # if -2 <= model_output and model_output < (-2/3):
+        #     return -2
+        # elif (2/3) <= model_output and model_output <= 2:
+        #     return 2
+        # return 0
 
 def compute_accuracy(data, labels, model, params):
     n_samples = len(data)
@@ -122,7 +145,7 @@ def compute_accuracy(data, labels, model, params):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--encoding_and_rotation",type=str,
-                        choices=['A','B','C','D1','D2','D3','E'],help="choose the encoding and rotation scheme, default B")
+                        choices=['A','B','C','D1','D2','D3','E','custom_binary','custom_ternary'],help="choose the encoding and rotation scheme, default B")
     parser.add_argument("--dataset",type=str,
                         choices=['xor','noisy_xor','moon','wine','iris'],help="choose the dataset, default moon")
     parser.add_argument("--num_itr",type=int,help="Enter number of iterations for training")
@@ -133,8 +156,8 @@ def main():
     if args.dataset:
         config['dataset'] = args.dataset
     
-    if config['encoding_and_rotation_scheme'] not in ['A','B','C','D1','D2','D3','E']:
-        print("Invalid Encoding and Rotation scheme. Allowed Schemes: A,B,C,D1,D2,D3,E")
+    if config['encoding_and_rotation_scheme'] not in ['A','B','C','D1','D2','D3','custom_binary','custom_ternary']:
+        print("Invalid Encoding and Rotation scheme. Allowed Schemes: A,B,C,D1,D2,D3,custom_binary,custom_ternary")
         return
     if config['dataset'] not in ['xor','noisy_xor','moon','wine','iris']:
         print("Invalid dataset. Choose from [XOR,Noisy XOR,Moon,Iris,Wine]")
@@ -161,22 +184,22 @@ def main():
         config["binary_classifier"] = False
         train_X, test_X, train_y, test_y = get_wine_dataset() 
     
-    if config['encoding_and_rotation_scheme'] in ['A','B','C'] and config['dataset'] in ['iris','wine']:
-        print("Wine and Iris cannot be used witj encoding schemes A,B,C")
+    if config['encoding_and_rotation_scheme'] in ['A','B','C','custom_binary'] and config['dataset'] in ['iris','wine']:
+        print("Wine and Iris cannot be used witj encoding schemes A,B,C,custom_binary")
         return
-    if config['encoding_and_rotation_scheme'] in ['D1','D2','D3','E'] and config['dataset'] not in ['iris','wine']:
-        print("XOR and Moon cannot be used witj encoding schemes D1,D2,D3,E")
+    if config['encoding_and_rotation_scheme'] in ['D1','D2','D3','custom_ternary'] and config['dataset'] not in ['iris','wine']:
+        print("XOR and Moon cannot be used with encoding schemes D1,D2,D3,custom_ternary")
         return
     if config['encoding_and_rotation_scheme'] in ['D1','D2','D3'] and config['dataset'] == 'iris':
-        print("Iris does not work with D1,D2,D3")
+        print("Iris (4D) does not work with D1,D2,D3")
         return
     # preprocessing wine
     if config['dataset'] == 'wine':
-        if config['encoding_and_rotation'] in ['D1','D2','D3']:
+        if config['encoding_and_rotation_scheme'] in ['D1','D2','D3']:
             pca = PCA(8)
             train_X = pca.fit_transform(train_X)
             test_X = pca.fit_transform(test_X)
-        elif config['encoding_and_rotation'] == 'E':
+        elif config['encoding_and_rotation_scheme'] == 'custom_ternary':
             pca = PCA(4)
             train_X = pca.fit_transform(train_X)
             test_X = pca.fit_transform(test_X)
@@ -213,7 +236,9 @@ def main():
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
     plt.title("Loss for "+config['dataset']+" using single qutrit with scheme "+config['encoding_and_rotation_scheme'])
+    plt.grid()
     plt.show()
+    plt.close()
     
     op_state = []
     for i in range(len(train_X)):
@@ -223,7 +248,9 @@ def main():
         op_state.append([y,z])
     op_state = np.array(op_state)
     plot_classified_data_on_bloch(op_state,train_y)
+    plt.grid()
     plt.show()
+    plt.close()
 if __name__ == "__main__":
     main()
     
