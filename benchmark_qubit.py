@@ -7,9 +7,13 @@ matplotlib.use('Agg')
 from run_qubit import *
 datasets = ['xor','moon','circular']
 rotation_schemes = ['A','B','C','D','E','F']
-# num_itrs = [100,200,300,400,500] # to do
-num_itrs = [50] # to do
+num_itrs = [100,200,300,400,500] # to do
+# num_itrs = [50] # to do
 dataset_size = 300
+
+xor_data = get_xor_data(dataset_size)
+circular_data = get_circular_boundary_dataset(dataset_size)
+moon_data = get_moon_dataset(dataset_size)
 
 def delete_figures(folder):
     for filename in os.listdir(folder):
@@ -31,11 +35,11 @@ f = open("./logs/qubit_run.txt","w")
 
 for dataset in datasets:
     if dataset == 'xor':
-        train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
+        train_X, test_X, train_y, test_y = xor_data
     elif dataset == 'circular':
-        train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
+        train_X, test_X, train_y, test_y = circular_data
     elif dataset == 'moon':
-        train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
+        train_X, test_X, train_y, test_y = moon_data
     print("Benchmarking for dataset:",dataset)
     for sch in rotation_schemes:
         for itr in num_itrs:
@@ -198,12 +202,11 @@ def plot_datafram(df,dataset):
         plt.close()
 
         if dataset == 'xor':
-            train_X, test_X, train_y, test_y = get_xor_data(dataset_size)
+            train_X, test_X, train_y, test_y = xor_data
         elif dataset == 'circular':
-            train_X, test_X, train_y, test_y = get_circular_boundary_dataset(dataset_size)
+            train_X, test_X, train_y, test_y = circular_data
         elif dataset == 'moon':
-            train_X, test_X, train_y, test_y = get_moon_dataset(dataset_size)
-        
+            train_X, test_X, train_y, test_y = moon_data
 
         test_max_indices = [X[i] for i, x in enumerate(test) if x == max(test)]
         train_max_indices = [X[i] for i, x in enumerate(train) if x == max(train)]
