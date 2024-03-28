@@ -17,14 +17,14 @@ def scheme_a(x_i,s_params,w_params):
     H = s_params[0]*x_i[0]*pauli_x + s_params[0]*x_i[1]*pauli_y # encoding
     H = H + w_params[0]*pauli_x # rotation
     U = expm(H)
-    qml.QubitUnitary(U)
+    qml.QubitUnitary(U,wires=0)
 
 def scheme_b(x_i,s_params,w_params): 
     # input vector x   
     H = s_params[0]*x_i[0]*pauli_x + s_params[0]*x_i[1]*pauli_y # encoding
     H = H + w_params[0]*pauli_x + w_params[1]*pauli_y + w_params[2]*pauli_z
     U = expm(H)
-    qml.QubitUnitary(U)
+    qml.QubitUnitary(U,wires=0)
              
              
 def scheme_c(x_i,w_params): 
@@ -32,14 +32,14 @@ def scheme_c(x_i,w_params):
     H = x_i[0]*pauli_x + x_i[1]*pauli_y
     H = H + w_params[0]*pauli_x + w_params[1]*pauli_y + w_params[2]*pauli_z
     U = expm(H)
-    qml.QubitUnitary(U)
+    qml.QubitUnitary(U,wires=0)
              
 def scheme_d(x_i,s_params,w_params): 
     # input vector x   
     H = s_params[0]*x_i[0]*pauli_x + s_params[1]*x_i[1]*pauli_y
     H = H + w_params[0]*pauli_x + w_params[1]*pauli_y + w_params[2]*pauli_z
     U = expm(H)
-    qml.QubitUnitary(U)
+    qml.QubitUnitary(U,wires=0)
              
              
 def scheme_e(x_i,s_params,w_params):
@@ -50,7 +50,7 @@ def scheme_e(x_i,s_params,w_params):
     H = H + w_params[1]*pauli_y
 
     U = expm(H)
-    qml.QubitUnitary(U)
+    qml.QubitUnitary(U,wires=0)
                   
              
 def scheme_f(x_i,s_params,w_params):
@@ -64,10 +64,10 @@ def scheme_f(x_i,s_params,w_params):
     H = H + w_params[2]*pauli_x
     
     U = expm(H)
-    qml.QubitUnitary(U) 
+    qml.QubitUnitary(U,wires=0) 
              
 def scheme_g(x_i,s_params,w_params):
     H = s_params[0]*(x_i[0]*pauli_x + x_i[1]*pauli_y + x_i[2]*pauli_z)
     H = H + w_params[0]*pauli_x + w_params[1]*pauli_y
     U = expm(H)
-    qml.QubitUnitary(U) 
+    qml.QubitUnitary(U,wires=0) 
