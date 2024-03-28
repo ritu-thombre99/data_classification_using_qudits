@@ -207,6 +207,7 @@ def main():
 
     # opt = qml.AdamOptimizer(stepsize=0.00087)
     opt = qml.GradientDescentOptimizer(stepsize=0.009)
+    # opt = qml.GradientDescentOptimizer(stepsize=0.03)
     num_its = 220
     if type(args.num_itr) == str and args.num_itr.isdigit() == True:
         args.num_itr = int(args.num_itr)
