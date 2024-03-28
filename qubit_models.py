@@ -1,15 +1,15 @@
 import pennylane as qml
 from pennylane import numpy as np
 
-import numpy as np
-
+# import numpy as np
+import jax.numpy as jnp
 pauli_x = qml.matrix(qml.PauliX(0))
 pauli_y = qml.matrix(qml.PauliY(0))
 pauli_z = qml.matrix(qml.PauliZ(0))
 def expm(H):
-    eigval, eigvec = np.linalg.eig(H)
-    exp_evals = np.exp(1j * eigval)
-    unitary = eigvec @ np.diag(exp_evals) @ np.linalg.inv(eigvec)
+    eigval, eigvec = jnp.linalg.eigh(H)
+    exp_evals = jnp.exp(1j * eigval)
+    unitary = eigvec @ jnp.diag(exp_evals) @ jnp.linalg.inv(eigvec)
     return unitary
 
 def scheme_a(x_i,s_params,w_params): 
