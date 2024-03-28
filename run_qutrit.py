@@ -235,9 +235,11 @@ def main():
     plt.plot(loss_over_time)
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
-    plt.title("Loss for "+config['dataset']+" using single qutrit with scheme "+config['encoding_and_rotation_scheme'])
+    title = "Loss for "+config['dataset']+" using single qutrit with scheme "+config['encoding_and_rotation_scheme']
+    plt.title(title)
     plt.grid()
     plt.show()
+    plt.savefig("./Figs/qutrit/"+title+".png",bbox_inches='tight')
     plt.close()
     
     op_state = []
@@ -249,8 +251,10 @@ def main():
     op_state = np.array(op_state)
     plot_classified_data_on_bloch(op_state,train_y)
     plt.grid()
+    title = "SU(2) bloch for "+config['dataset']+" with "+config['encoding_and_rotation_scheme']+" Itr:"+str(num_its)
+    plt.title(title)
     plt.show()
+    plt.savefig("./Figs/qutrit/"+title+".png",bbox_inches='tight')
     plt.close()
 if __name__ == "__main__":
     main()
-    
