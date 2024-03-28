@@ -1,87 +1,73 @@
 import pennylane as qml
 from pennylane import numpy as np
 
+import numpy as np
+
+pauli_x = qml.matrix(qml.PauliX(0))
+pauli_y = qml.matrix(qml.PauliY(0))
+pauli_z = qml.matrix(qml.PauliZ(0))
+def expm(H):
+    eigval, eigvec = np.linalg.eig(H)
+    exp_evals = np.exp(1j * eigval)
+    unitary = eigvec @ np.diag(exp_evals) @ np.linalg.inv(eigvec)
+    return unitary
+
 def scheme_a(x_i,s_params,w_params): 
     # input vector x   
-    rx_angle = -2*s_params[0]*x_i[0]    
-    ry_angle = -2*s_params[0]*x_i[1]
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[0],0)
+    H = s_params[0]*x_i[0]*pauli_x + s_params[0]*x_i[1]*pauli_y # encoding
+    H = H + w_params[0]*pauli_x # rotation
+    U = expm(H)
+    qml.QubitUnitary(U)
 
 def scheme_b(x_i,s_params,w_params): 
     # input vector x   
-    rx_angle = -2*s_params[0]*x_i[0]    
-    ry_angle = -2*s_params[0]*x_i[1]
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[0],0)    
-    qml.RY(-2*w_params[1],0)
-    qml.RZ(-2*w_params[2],0)    
+    H = s_params[0]*x_i[0]*pauli_x + s_params[0]*x_i[1]*pauli_y # encoding
+    H = H + w_params[0]*pauli_x + w_params[1]*pauli_y + w_params[2]*pauli_z
+    U = expm(H)
+    qml.QubitUnitary(U)
              
              
 def scheme_c(x_i,w_params): 
     # input vector x   
-    rx_angle = -2*x_i[0]    
-    ry_angle = -2*x_i[1]
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[0],0)    
-    qml.RY(-2*w_params[1],0)
-    qml.RZ(-2*w_params[2],0)    
+    H = x_i[0]*pauli_x + x_i[1]*pauli_y
+    H = H + w_params[0]*pauli_x + w_params[1]*pauli_y + w_params[2]*pauli_z
+    U = expm(H)
+    qml.QubitUnitary(U)
              
 def scheme_d(x_i,s_params,w_params): 
     # input vector x   
-    rx_angle = -2*s_params[0]*x_i[0]    
-    ry_angle = -2*s_params[1]*x_i[1]
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[0],0)    
-    qml.RY(-2*w_params[1],0)
-    qml.RZ(-2*w_params[2],0)   
+    H = s_params[0]*x_i[0]*pauli_x + s_params[1]*x_i[1]*pauli_y
+    H = H + w_params[0]*pauli_x + w_params[1]*pauli_y + w_params[2]*pauli_z
+    U = expm(H)
+    qml.QubitUnitary(U)
              
              
 def scheme_e(x_i,s_params,w_params):
-    rx_angle = -2*s_params[0]*x_i[0]    
-    ry_angle = -2*s_params[0]*x_i[1]
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[0],0)
+    H = s_params[0]*(x_i[0]*pauli_x + x_i[1]*pauli_y)
+    H = H + w_params[0]*pauli_x
 
-    ry_angle = -2*s_params[1]*x_i[0]    
-    rz_angle = -2*s_params[1]*x_i[1]
-    qml.RZ(rz_angle,0)
-    qml.RY(ry_angle,0)
-    qml.RY(-2*w_params[1],0)
+    H = H + s_params[1]*(x_i[0]*pauli_y + x_i[1]*pauli_z)
+    H = H + w_params[1]*pauli_y
+
+    U = expm(H)
+    qml.QubitUnitary(U)
                   
              
 def scheme_f(x_i,s_params,w_params):
-    rx_angle = -2*s_params[0]*x_i[0]    
-    ry_angle = -2*s_params[0]*x_i[1]
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[0],0)
+    H = s_params[0]*(x_i[0]*pauli_x + x_i[1]*pauli_y)
+    H = H + w_params[0]*pauli_x
 
-    ry_angle = -2*s_params[1]*x_i[0]    
-    rz_angle = -2*s_params[1]*x_i[1]
-    qml.RZ(rz_angle,0)
-    qml.RY(ry_angle,0)
-    qml.RY(-2*w_params[1],0)
+    H = H + s_params[1]*(x_i[0]*pauli_y + x_i[1]*pauli_z)
+    H = H + w_params[1]*pauli_y
 
-    rx_angle = -2*s_params[2]*x_i[0]    
-    ry_angle = -2*s_params[2]*x_i[1]
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[2],0)    
+    H = H + s_params[2]*(x_i[0]*pauli_x + x_i[1]*pauli_y)
+    H = H + w_params[2]*pauli_x
+    
+    U = expm(H)
+    qml.QubitUnitary(U) 
              
 def scheme_g(x_i,s_params,w_params):
-    rx_angle = -2*s_params[0]*x_i[0]    
-    ry_angle = -2*s_params[0]*x_i[1]
-    rz_angle = -2*s_params[0]*x_i[2]
-    qml.RZ(rz_angle,0)
-    qml.RY(ry_angle,0)
-    qml.RX(rx_angle,0)
-    qml.RX(-2*w_params[0],0) 
-    qml.RY(-2*w_params[1],0)
-            
- 
+    H = s_params[0]*(x_i[0]*pauli_x + x_i[1]*pauli_y + x_i[2]*pauli_z)
+    H = H + w_params[0]*pauli_x + w_params[1]*pauli_y
+    U = expm(H)
+    qml.QubitUnitary(U) 
